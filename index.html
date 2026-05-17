@@ -140,22 +140,22 @@ body{
 .menu-grid::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
   background:linear-gradient(180deg,transparent,rgba(0,0,0,.2))}
 .mg-item{
-  border:2.5px solid #fff;border-radius:18px;
+  background:linear-gradient(160deg,#FFE878 0%,#FFD030 50%,#F0A800 100%);
+  border:2.5px solid rgba(255,255,255,.7);border-radius:18px;
   padding:8px 4px 9px;min-height:96px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 6px 12px rgba(0,0,0,.3),inset 0 -4px 0 rgba(0,0,0,.2);
+  box-shadow:0 6px 14px rgba(180,120,0,.45),inset 0 -4px 0 rgba(120,70,0,.3),inset 0 1px 0 rgba(255,255,255,.6);
   position:relative;transition:transform .1s,box-shadow .1s;
-  background:linear-gradient(160deg,#FFF4D6 0%,#F4DDA0 100%);
 }
-.mg-item:active{transform:translateY(3px);box-shadow:0 2px 4px rgba(0,0,0,.2),inset 0 -1px 0 rgba(0,0,0,.15)}
-.mg-item.c-green{background:linear-gradient(160deg,#E8F5E9,#C8E6C9);box-shadow:0 6px 12px rgba(76,168,39,.35),inset 0 -4px 0 rgba(45,100,20,.3)}
-.mg-item.c-blue{background:linear-gradient(160deg,#E3F2FD,#BBDEFB);box-shadow:0 6px 12px rgba(33,150,243,.3),inset 0 -4px 0 rgba(25,118,210,.3)}
-.mg-item.c-orange{background:linear-gradient(160deg,#FFF3E0,#FFE0B2);box-shadow:0 6px 12px rgba(244,166,35,.3),inset 0 -4px 0 rgba(200,120,0,.3)}
-.mg-item.c-purple{background:linear-gradient(160deg,#F3E5F5,#E1BEE7);box-shadow:0 6px 12px rgba(156,39,176,.25),inset 0 -4px 0 rgba(106,27,154,.3)}
-.mg-item.c-red{background:linear-gradient(160deg,#FFEBEE,#FFCDD2);box-shadow:0 6px 12px rgba(229,57,70,.25),inset 0 -4px 0 rgba(180,30,40,.3)}
+.mg-item:active{transform:translateY(3px);box-shadow:0 2px 5px rgba(180,120,0,.3),inset 0 -1px 0 rgba(120,70,0,.2)}
+/* remove old color variants */
+.mg-item.c-green,.mg-item.c-blue,.mg-item.c-orange,.mg-item.c-purple,.mg-item.c-red{
+  background:linear-gradient(160deg,#FFE878 0%,#FFD030 50%,#F0A800 100%);
+  box-shadow:0 6px 14px rgba(180,120,0,.45),inset 0 -4px 0 rgba(120,70,0,.3),inset 0 1px 0 rgba(255,255,255,.6);
+}
 .mg-item .ic{width:56px;height:52px;display:flex;align-items:center;justify-content:center}
-.mg-item .ic svg{width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
-.mg-item .nm{font-size:12px;font-weight:700;color:#3D2510;margin-top:3px;letter-spacing:.3px}
+.mg-item .ic svg{width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.mg-item .nm{font-size:12px;font-weight:700;color:#5D3A1F;margin-top:3px;letter-spacing:.3px;text-shadow:0 1px 0 rgba(255,255,255,.4)}
 .mg-item .badge{
   position:absolute;top:-7px;right:-7px;
   background:radial-gradient(circle at 30% 30%,#FF6565,#C62828);
@@ -696,6 +696,158 @@ body{
 .wh-item .wn{font-size:13px;font-weight:700;color:#5D3A1F}
 .wh-item .wa{font-size:22px;font-weight:700;color:#2D5410;line-height:1}
 .wh-item .wl{font-size:10px;color:#8B5E3C;font-weight:600}
+
+/* ============ DARK MODE ============ */
+body.dark{background:#1A1A2E}
+body.dark .screen{background:#1A1A2E}
+body.dark #screen-main{background:#1A1A2E}
+
+/* topbar darker */
+body.dark .topbar{background:linear-gradient(180deg,#0D0D1A 0%,#1A1A2E 80%,#141428 100%)}
+
+/* farm scene overlay */
+body.dark .farm-scene::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(10,10,30,.45);pointer-events:none;z-index:1
+}
+body.dark .fab,.dark .quick-btn-wrap{filter:brightness(.85)}
+
+/* grid menu */
+body.dark .menu-grid{background:linear-gradient(180deg,#1A2A0A,#0D1A05)}
+body.dark .mg-item{
+  background:linear-gradient(160deg,#2A2010 0%,#3A2E08 50%,#4A3A0A 100%);
+  border-color:rgba(255,210,50,.3);
+  box-shadow:0 6px 14px rgba(0,0,0,.6),inset 0 -4px 0 rgba(0,0,0,.4),inset 0 1px 0 rgba(255,220,80,.15);
+}
+body.dark .mg-item .nm{color:#FFD55A;text-shadow:0 0 8px rgba(255,213,90,.4)}
+
+/* bottom nav */
+body.dark .bnav{background:linear-gradient(180deg,#0D1A05,#060E02)}
+body.dark .bnav .it .nm{color:rgba(255,220,100,.7)}
+
+/* screen header wood */
+body.dark .sh-header{
+  background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.7)),
+    repeating-linear-gradient(90deg,#2A1A0A 0,#2A1A0A 14px,#1A0E05 14px,#1A0E05 28px);
+}
+
+/* panels */
+body.dark .panels{background:linear-gradient(180deg,#1A2A0A,#0D1A05)}
+body.dark .panel{
+  background:linear-gradient(160deg,#1E1E2E,#252535);
+  border-color:rgba(255,213,90,.2);
+  box-shadow:0 6px 14px rgba(0,0,0,.5),inset 0 -4px 0 rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05)
+}
+body.dark .p-ttl{color:rgba(255,213,90,.7);background:rgba(255,213,90,.06)}
+body.dark .p-big{color:#7CE042}
+body.dark .p-sub{color:#C0A060}
+body.dark .p-sub b{color:#7CE042}
+body.dark .lstar .num{color:#FFD55A}
+
+/* building tabs */
+body.dark .btabs{background:linear-gradient(180deg,#0D1A05,#060E02)}
+body.dark .btab{background:linear-gradient(180deg,#1A1005,#0D0A02);border-color:rgba(255,213,90,.15)}
+body.dark .btab.active{background:linear-gradient(180deg,#FFD55A,#E69E12)}
+
+/* scroll areas */
+body.dark .scroll{background:linear-gradient(180deg,#1A2A0A,#0D1A05) !important}
+
+/* cards */
+body.dark .card,.dark .ach-item,.dark .quest-card,.dark .r-card,.dark .o-card,.dark .m-item,.dark .field,.dark .aov-card,.dark .wh-item,.dark .plot{
+  background:linear-gradient(160deg,#1E1E2E,#252535) !important;
+  border-color:rgba(255,213,90,.2) !important;
+}
+body.dark .card-nm,.dark .card-desc,.dark .ach-name,.dark .quest-name,.dark .m-nm,.dark .field .nm,.dark .aov-nm,.dark .wh-item .wn,.dark .r-nm{color:#FFE9B0 !important}
+body.dark .card-desc,.dark .m-price,.dark .field .l,.dark .aov-meta,.dark .wh-item .wl{color:rgba(255,200,100,.6) !important}
+
+/* aov grid */
+body.dark .aov-grid{background:linear-gradient(180deg,#1A2A0A,#0D1A05)}
+body.dark .aov-card{background:linear-gradient(160deg,#1E1E2E,#252535);border-color:rgba(255,213,90,.2)}
+body.dark .aov-nm{color:#FFE9B0}
+body.dark .aov-meta{color:rgba(255,200,100,.65)}
+
+/* fields */
+body.dark .fields-grid,.dark .plots-grid{background:transparent}
+body.dark .plot.empty{background:linear-gradient(180deg,#1A1210,#0D0A08);border-color:#3A2A1A}
+body.dark .plot.growing{background:linear-gradient(180deg,#0E1E0E,#162416)}
+body.dark .plot.ready{background:linear-gradient(180deg,#1E1A00,#2A2400)}
+body.dark .plot .nm{color:#FFE9B0}
+body.dark .plot .plot-timer{color:#7CE042}
+body.dark .field-bar{background:linear-gradient(180deg,#0D1A05,#060E02);color:#FFD55A}
+body.dark .field-bar b{color:#fff}
+
+/* market */
+body.dark .m-list{background:transparent}
+body.dark .m-item{background:linear-gradient(160deg,#1E1E2E,#252535);border-color:rgba(255,213,90,.2)}
+body.dark .m-nm{color:#FFE9B0}
+body.dark .m-price{color:rgba(255,200,100,.6)}
+body.dark .m-have{color:#7CE042}
+
+/* orders */
+body.dark .o-card{background:linear-gradient(160deg,#1E1E2E,#252535);border-color:rgba(255,213,90,.2)}
+body.dark .o-nm{color:#FFE9B0}
+
+/* warehouse */
+body.dark .wh-item{background:linear-gradient(160deg,#1E1E2E,#252535);border-color:rgba(255,213,90,.2)}
+body.dark .wh-item .wn{color:#FFE9B0}
+body.dark .wh-item .wa{color:#7CE042}
+body.dark .wh-item .wl{color:rgba(255,200,100,.6)}
+body.dark .warehouse-section .wh-title{color:#FFD55A}
+
+/* seed modal */
+body.dark .seed-sheet{background:linear-gradient(180deg,#1E1E2E,#252535);border-color:rgba(255,213,90,.3)}
+body.dark .seed-ttl{color:#FFE9B0}
+body.dark .seed-item{background:linear-gradient(160deg,#252535,#2A2A40);border-color:rgba(255,213,90,.2)}
+body.dark .seed-info .s-nm{color:#FFE9B0}
+body.dark .seed-info .s-time{color:rgba(255,200,100,.6)}
+body.dark .seed-info .s-cost{color:#7CE042}
+body.dark .seed-cancel{background:linear-gradient(180deg,#333,#222)}
+
+/* cap board */
+body.dark .cap-board{background:linear-gradient(180deg,#0A0A1A,#050510);border-color:rgba(255,213,90,.3)}
+
+/* toast */
+body.dark #toast{background:linear-gradient(180deg,#1A1A2E,#0D0D1A);border-color:rgba(255,213,90,.5)}
+
+/* modal */
+body.dark .modal-box{background:linear-gradient(180deg,#1E1E2E,#252535);border-color:rgba(255,213,90,.4)}
+body.dark .modal-ttl{color:#FFE9B0}
+body.dark .modal-sub{color:rgba(255,200,100,.7)}
+body.dark .modal-amt{color:#FFD55A}
+
+/* section bar */
+body.dark .section-bar{background:linear-gradient(180deg,#0D1A05,#060E02)}
+
+/* aov pic */
+body.dark .aov-pic{border-color:rgba(255,213,90,.3)}
+
+/* daily grid */
+body.dark .daily-card{background:linear-gradient(160deg,#1E1E2E,#252535);border-color:rgba(255,213,90,.2)}
+body.dark .daily-card .n{color:#7CE042}
+body.dark .daily-card .l{color:rgba(255,200,100,.6)}
+
+/* collect-all btn */
+body.dark .collect-all{box-shadow:0 5px 12px rgba(0,0,0,.5),inset 0 -3px 0 rgba(0,0,0,.3)}
+
+/* progress bars */
+body.dark .progress{background:rgba(255,213,90,.1);border-color:rgba(255,213,90,.2)}
+body.dark .feed-bar{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1)}
+body.dark .grow-bar{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1)}
+body.dark .life-bar{background:rgba(0,0,0,.5)}
+
+/* need chips */
+body.dark .need{background:linear-gradient(180deg,#0E2010,#162818);border-color:#4CA827;color:#7CE042}
+body.dark .need.x{background:linear-gradient(180deg,#200E0E,#281616);border-color:#C62828;color:#FF6565}
+
+/* wood sign */
+body.dark .wood-sign{
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 5px,rgba(0,0,0,.15) 5px,rgba(0,0,0,.15) 6px),
+    linear-gradient(180deg,#1A0E05 0%,#0D0702 50%,#050302 100%);
+  border-color:#3A2010
+}
+
+/* empty barn */
+body.dark .empty-barn{background:rgba(0,0,0,.6)}
 
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
@@ -1504,6 +1656,7 @@ body{
 // ====================== GAME STATE ======================
 const STATE = {
   coins:0, gems:0, ton:0, farmLevel:1,
+  darkMode: false,
   inv:{eggs:0,meat:0,wool:0,milk:0,wheat:0,corn:0,carrot:0,pumpkin:0},
   fields:[
     {id:0,crop:null,state:'empty',plantedAt:0,readyAt:0},
@@ -2683,29 +2836,46 @@ function sellAllProducts(){
 }
 
 function renderSettings(){
+  var dm = STATE.darkMode;
   var rows = [
-    ['🔔 Уведомления','Вкл',true],
-    ['🔊 Звук','Вкл',true],
-    ['🌍 Язык','Русский',false]
+    {icon:'🔔', label:'Уведомления', val:'Вкл', toggle:false},
+    {icon:'🔊', label:'Звук', val:'Вкл', toggle:false},
+    {icon:'🌍', label:'Язык', val:'Русский', toggle:false}
   ];
-  var rowsHtml = '';
-  for(var i=0;i<rows.length;i++){
-    var r=rows[i];
-    var sep = i < rows.length-1 ? 'border-bottom:1px solid #C49A6C;' : '';
-    var val = r[2]
-      ? '<span style="background:linear-gradient(180deg,#7CE042,#4CA827);color:#fff;border-radius:12px;padding:3px 14px;font-size:12px;font-weight:700;border:1.5px solid #fff">'+r[1]+'</span>'
-      : '<span style="color:#8B5E3C">'+r[1]+'</span>';
-    rowsHtml += '<div style="padding:14px 16px;'+sep+'display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#5D3A1F"><span>'+r[0]+'</span>'+val+'</div>';
-  }
-  return headerHTML('НАСТРОЙКИ','v1.0.0')
-    + '<div style="padding:16px;flex:1;background:linear-gradient(180deg,#7BB833,#5A9928)">'
-    + '<div style="background:linear-gradient(180deg,#FFF4D6,#F0E0A8);border-radius:18px;overflow:hidden;box-shadow:0 5px 12px rgba(0,0,0,.2);margin-bottom:12px;border:2.5px solid #fff">'
+  var rowsHtml = rows.map(function(r){
+    return '<div style="padding:14px 16px;border-bottom:1px solid ' + (dm?'rgba(255,213,90,.12)':'#C49A6C') + ';display:flex;justify-content:space-between;align-items:center;font-weight:700;color:' + (dm?'#FFE9B0':'#5D3A1F') + '">'
+      + '<span>' + r.icon + ' ' + r.label + '</span>'
+      + '<span style="background:linear-gradient(180deg,#7CE042,#4CA827);color:#fff;border-radius:12px;padding:3px 14px;font-size:12px;font-weight:700;border:1.5px solid #fff">' + r.val + '</span>'
+      + '</div>';
+  }).join('');
+
+  // Dark mode row
+  var dmToggle = '<div onclick="toggleDarkMode()" style="padding:14px 16px;border-bottom:1px solid '+(dm?'rgba(255,213,90,.12)':'#C49A6C')+';display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:700;color:'+(dm?'#FFE9B0':'#5D3A1F')+'">'
+    + '<span>🌙 Тёмный режим</span>'
+    + '<div style="width:52px;height:28px;border-radius:14px;position:relative;cursor:pointer;transition:background .3s;background:' + (dm?'linear-gradient(180deg,#FFD55A,#E8A800)':'linear-gradient(180deg,#C0C0C0,#909090)') + ';box-shadow:inset 0 2px 4px rgba(0,0,0,.3),0 2px 4px rgba(0,0,0,.2);border:1.5px solid ' + (dm?'rgba(255,255,255,.4)':'rgba(0,0,0,.2)') + '">'
+    + '<div style="position:absolute;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.35);transition:left .3s;left:' + (dm?'27px':'3px') + '">'
+    + (dm ? '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px">🌙</span>' : '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px">☀️</span>')
+    + '</div></div>'
+    + '</div>';
+
+  var cardBg = dm ? 'linear-gradient(160deg,#1E1E2E,#252535)' : 'linear-gradient(180deg,#FFF4D6,#F0E0A8)';
+  var cardBorder = dm ? 'rgba(255,213,90,.2)' : '#fff';
+  var textColor = dm ? '#FFE9B0' : '#5D3A1F';
+  var subColor = dm ? 'rgba(255,200,100,.6)' : '#8B5E3C';
+
+  return topbarHTML()
+    + headerHTML('НАСТРОЙКИ','v1.0.0')
+    + '<div style="padding:16px;flex:1;overflow-y:auto;background:' + (dm?'linear-gradient(180deg,#1A1A2E,#0D0D1A)':'linear-gradient(180deg,#7BB833,#5A9928)') + '">'
+    + '<div style="background:' + cardBg + ';border-radius:18px;overflow:hidden;box-shadow:0 5px 12px rgba(0,0,0,' + (dm?.5:.2) + ');margin-bottom:12px;border:2.5px solid ' + cardBorder + '">'
+    + dmToggle
     + rowsHtml
+    + '<div style="padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:'+textColor+'"><span>🌍 Язык</span><span style="color:'+subColor+'">Русский</span></div>'
     + '</div>'
-    + '<div style="background:linear-gradient(180deg,#FFF4D6,#F0E0A8);border-radius:18px;overflow:hidden;box-shadow:0 5px 12px rgba(0,0,0,.2);border:2.5px solid #fff">'
-    + '<div style="padding:14px 16px;border-bottom:1px solid #C49A6C;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#5D3A1F"><span>👤 Профиль</span><span style="color:#2C9CDB">Изменить →</span></div>'
-    + '<div style="padding:14px 16px;font-weight:700;color:#8B5E3C">Версия 1.0.0</div>'
-    + '</div></div>';
+    + '<div style="background:' + cardBg + ';border-radius:18px;overflow:hidden;box-shadow:0 5px 12px rgba(0,0,0,' + (dm?.5:.2) + ');border:2.5px solid ' + cardBorder + '">'
+    + '<div style="padding:14px 16px;border-bottom:1px solid '+(dm?'rgba(255,213,90,.12)':'#C49A6C')+';display:flex;justify-content:space-between;align-items:center;font-weight:700;color:'+textColor+'"><span>👤 Профиль</span><span style="color:#4FB7FF">Изменить →</span></div>'
+    + '<div style="padding:14px 16px;font-weight:700;color:'+subColor+'">Версия 1.0.0</div>'
+    + '</div>'
+    + '</div>';
 }
 
 // ====================== NAVIGATION ======================
@@ -3017,7 +3187,18 @@ document.getElementById('screen-main').addEventListener('touchmove', e => {
   window.addEventListener('orientationchange', ()=>setTimeout(fixHeight,200));
 })();
 
+function toggleDarkMode(){
+  STATE.darkMode = !STATE.darkMode;
+  applyDarkMode();
+  refresh();
+}
+
+function applyDarkMode(){
+  document.body.classList.toggle('dark', STATE.darkMode);
+}
+
 // Initial load
+applyDarkMode();
 updateDisplays();
 </script>
 
