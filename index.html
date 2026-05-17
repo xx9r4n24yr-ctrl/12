@@ -546,63 +546,7 @@ body{
 @media (max-height:600px){.farm-scene{aspect-ratio:480/280}.scene-int{aspect-ratio:480/240}.panels{padding:6px;gap:5px}.panel{padding:6px 4px}}
 @media (max-width:360px){.menu-grid{gap:6px;padding:8px}.mg-item{min-height:84px}.cur{font-size:12px}.cur svg{width:20px;height:20px}}
 
-/* ============ WELCOME CHEST ============ */
-.chest-modal{position:fixed;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px;backdrop-filter:blur(6px)}
-.chest-modal.hide{display:none}
-.chest-box{
-  background:linear-gradient(180deg,#FFF4D6,#F0E0A8);
-  border:4px solid #FFD55A;border-radius:28px;
-  padding:28px 24px;max-width:340px;width:100%;text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.7);position:relative;overflow:hidden
-}
-.chest-box::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 0%,rgba(255,213,90,.4),transparent 60%);
-  pointer-events:none
-}
-.chest-ttl{font-size:24px;font-weight:700;color:#5D3A1F;margin-bottom:4px}
-.chest-sub{font-size:13px;color:#8B5E3C;font-weight:600;margin-bottom:20px}
-.chest-wrap{position:relative;width:160px;height:140px;margin:0 auto 16px;cursor:pointer}
-.chest-svg{width:160px;height:140px;display:block;transition:transform .2s}
-.chest-wrap:hover .chest-svg{transform:scale(1.05)}
-.chest-glow{
-  position:absolute;inset:-20px;
-  background:radial-gradient(ellipse at 50% 60%,rgba(255,213,90,.5),transparent 70%);
-  animation:chestGlow 2s ease-in-out infinite;pointer-events:none
-}
-@keyframes chestGlow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
-.chest-hint{font-size:13px;color:#8B5E3C;font-weight:600;margin-bottom:16px;animation:bob .8s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-
-/* Open state */
-.chest-open .chest-lid{animation:openLid .5s ease-out forwards}
-@keyframes openLid{from{transform:rotate(0) translateY(0)}to{transform:rotate(-45deg) translateY(-20px)}}
-
-.rewards-reveal{display:none;flex-direction:column;gap:10px;margin-bottom:16px}
-.rewards-reveal.show{display:flex;animation:fadeIn .4s ease-out}
-.reward-row{
-  display:flex;align-items:center;gap:12px;justify-content:center;
-  background:linear-gradient(135deg,rgba(255,213,90,.3),rgba(255,180,0,.15));
-  border:2px solid rgba(255,213,90,.5);border-radius:14px;
-  padding:10px 16px;
-  animation:slideIn .4s ease-out both
-}
-.reward-row:nth-child(2){animation-delay:.1s}
-.reward-row:nth-child(3){animation-delay:.2s}
-@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-.reward-row svg{width:40px;height:40px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3))}
-.reward-row .rtxt{font-size:18px;font-weight:700;color:#5D3A1F}
-.reward-row .rlbl{font-size:11px;color:#8B5E3C;font-weight:600}
-/* particles */
-.particle{
-  position:absolute;pointer-events:none;font-size:20px;
-  animation:particleFly 1s ease-out forwards
-}
-@keyframes particleFly{
-  from{opacity:1;transform:translate(0,0) scale(1)}
-  to{opacity:0;transform:var(--tx,0,0) scale(0)}
-}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+/* chest inline in tasks – no modal needed */
 
 /* ============ FIELD PLOTS ============ */
 .plots-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px}
@@ -739,6 +683,8 @@ body{
 .wh-item .wl{font-size:10px;color:#8B5E3C;font-weight:600}
 
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
@@ -1484,80 +1430,6 @@ body{
 <div id="screen-settings" class="screen"></div>
 
 <!-- Welcome chest modal -->
-<div id="modal-chest" class="chest-modal">
-  <div class="chest-box">
-    <div class="chest-ttl">🎉 Добро пожаловать!</div>
-    <div class="chest-sub">Нажми на сундук, чтобы получить подарок</div>
-
-    <div class="chest-wrap" id="chest-wrap" onclick="openChest()">
-      <div class="chest-glow"></div>
-      <svg class="chest-svg" viewBox="0 0 160 140" id="chest-svg">
-        <!-- shadow -->
-        <ellipse cx="80" cy="128" rx="50" ry="8" fill="rgba(0,0,0,.25)"/>
-        <!-- body -->
-        <rect x="15" y="72" width="130" height="58" rx="6" fill="#8B5E3C" stroke="#5D3A1F" stroke-width="2"/>
-        <rect x="18" y="76" width="124" height="50" rx="4" fill="#A67C52"/>
-        <!-- body stripes -->
-        <rect x="15" y="88" width="130" height="4" fill="#5D3A1F"/>
-        <rect x="15" y="100" width="130" height="4" fill="#5D3A1F" opacity=".6"/>
-        <!-- lock plate -->
-        <rect x="64" y="82" width="32" height="22" rx="4" fill="#FFD55A" stroke="#8C5C00" stroke-width="2"/>
-        <circle cx="80" cy="90" r="5" fill="#8C5C00" stroke="#5D3A1F" stroke-width="1.5"/>
-        <rect x="77" y="90" width="6" height="8" rx="1" fill="#8C5C00"/>
-        <!-- corner brackets -->
-        <g fill="#FFD55A" stroke="#8C5C00" stroke-width="1.5">
-          <rect x="15" y="72" width="12" height="12" rx="2"/>
-          <rect x="133" y="72" width="12" height="12" rx="2"/>
-          <rect x="15" y="116" width="12" height="12" rx="2"/>
-          <rect x="133" y="116" width="12" height="12" rx="2"/>
-        </g>
-        <!-- LID group (transform-origin at bottom of lid) -->
-        <g id="chest-lid" style="transform-origin:80px 72px">
-          <rect x="15" y="30" width="130" height="44" rx="6" fill="#9A6B45" stroke="#5D3A1F" stroke-width="2"/>
-          <rect x="18" y="33" width="124" height="38" rx="4" fill="#C49671"/>
-          <!-- lid stripes -->
-          <rect x="15" y="42" width="130" height="4" fill="#5D3A1F"/>
-          <rect x="15" y="54" width="130" height="4" fill="#5D3A1F" opacity=".6"/>
-          <!-- lid brackets -->
-          <g fill="#FFD55A" stroke="#8C5C00" stroke-width="1.5">
-            <rect x="15" y="30" width="12" height="12" rx="2"/>
-            <rect x="133" y="30" width="12" height="12" rx="2"/>
-            <rect x="15" y="60" width="12" height="12" rx="2"/>
-            <rect x="133" y="60" width="12" height="12" rx="2"/>
-          </g>
-          <!-- shine on lid -->
-          <ellipse cx="50" cy="38" rx="20" ry="4" fill="#fff" opacity=".2"/>
-          <!-- sparkles on lid -->
-          <text x="38" y="58" font-size="12">✨</text>
-          <text x="100" y="56" font-size="10">⭐</text>
-          <text x="68" y="52" font-size="14">💫</text>
-        </g>
-      </svg>
-    </div>
-
-    <div class="chest-hint" id="chest-hint">👆 Нажми на сундук!</div>
-
-    <div class="rewards-reveal" id="rewards-reveal">
-      <div class="reward-row">
-        <svg viewBox="0 0 24 24"><use href="#coin"/></svg>
-        <div><div class="rtxt">+ 100 монет</div><div class="rlbl">Игровая валюта</div></div>
-      </div>
-      <div class="reward-row">
-        <svg viewBox="0 0 24 24"><use href="#gem"/></svg>
-        <div><div class="rtxt">+ 50 алмазов</div><div class="rlbl">Премиум валюта</div></div>
-      </div>
-      <div class="reward-row">
-        <svg viewBox="0 0 100 100"><use href="#chicken"/></svg>
-        <div><div class="rtxt">+ 1 курица</div><div class="rlbl">В курятник</div></div>
-      </div>
-    </div>
-
-    <button class="modal-btn" id="chest-btn" onclick="claimChest()" style="display:none">
-      🎁 Забрать подарок!
-    </button>
-  </div>
-</div>
-
 <!-- Daily bonus modal -->
 <div id="modal-daily" class="modal hide">
   <div class="modal-box">
@@ -2502,7 +2374,103 @@ function renderTasks(){
   const bonusAvail = allDone && !t.claimed['__all'];
   const totalReward = TASKS_CFG.reduce((s,c)=>s+c.r,0);
 
-  const taskCards = TASKS_CFG.map(cfg => {
+  const chestClaimed = STATE.tasks.claimed['__welcome'];
+  const chestOpened  = STATE.tasks.progress['__welcome_opened'];
+
+  const chestSVG = `<svg viewBox="0 0 160 140" style="width:130px;height:114px;display:block;margin:0 auto;cursor:${chestClaimed?'default':'pointer'};transition:transform .15s"
+    id="inline-chest-svg" onclick="inlineOpenChest()">
+    <ellipse cx="80" cy="128" rx="50" ry="8" fill="rgba(0,0,0,.2)"/>
+    <rect x="15" y="72" width="130" height="58" rx="6" fill="#8B5E3C" stroke="#5D3A1F" stroke-width="2"/>
+    <rect x="18" y="76" width="124" height="50" rx="4" fill="#A67C52"/>
+    <rect x="15" y="88" width="130" height="4" fill="#5D3A1F"/>
+    <rect x="15" y="100" width="130" height="4" fill="#5D3A1F" opacity=".6"/>
+    <rect x="64" y="82" width="32" height="22" rx="4" fill="#FFD55A" stroke="#8C5C00" stroke-width="2"/>
+    <circle cx="80" cy="90" r="5" fill="#8C5C00" stroke="#5D3A1F" stroke-width="1.5"/>
+    <rect x="77" y="90" width="6" height="8" rx="1" fill="#8C5C00"/>
+    <g fill="#FFD55A" stroke="#8C5C00" stroke-width="1.5">
+      <rect x="15" y="72" width="12" height="12" rx="2"/><rect x="133" y="72" width="12" height="12" rx="2"/>
+      <rect x="15" y="116" width="12" height="12" rx="2"/><rect x="133" y="116" width="12" height="12" rx="2"/>
+    </g>
+    <g id="inline-lid" style="transform-origin:80px 72px;transition:transform .5s cubic-bezier(.17,.67,.47,1.3);
+      ${chestOpened?'transform:rotate(-52deg) translateY(-18px)':''}">
+      <rect x="15" y="30" width="130" height="44" rx="6" fill="#9A6B45" stroke="#5D3A1F" stroke-width="2"/>
+      <rect x="18" y="33" width="124" height="38" rx="4" fill="#C49671"/>
+      <rect x="15" y="42" width="130" height="4" fill="#5D3A1F"/>
+      <rect x="15" y="54" width="130" height="4" fill="#5D3A1F" opacity=".6"/>
+      <g fill="#FFD55A" stroke="#8C5C00" stroke-width="1.5">
+        <rect x="15" y="30" width="12" height="12" rx="2"/><rect x="133" y="30" width="12" height="12" rx="2"/>
+        <rect x="15" y="60" width="12" height="12" rx="2"/><rect x="133" y="60" width="12" height="12" rx="2"/>
+      </g>
+      <ellipse cx="50" cy="38" rx="20" ry="4" fill="#fff" opacity=".2"/>
+      ${chestClaimed ? '' : '<text x="38" y="58" font-size="12">✨</text><text x="100" y="56" font-size="10">⭐</text><text x="68" y="52" font-size="14">💫</text>'}
+    </g>
+    ${chestClaimed ? '<text x="80" y="105" font-size="18" text-anchor="middle">✅</text>' : ''}
+  </svg>`;
+
+  const chestBlock = `
+    <div style="
+      background:linear-gradient(135deg,#FFF9E6,#FDE89A);
+      border:3px solid ${chestClaimed?'#A5D6A7':'#FFD55A'};
+      border-radius:22px;padding:16px 14px 14px;
+      margin:10px;
+      box-shadow:${chestClaimed?'0 4px 10px rgba(0,0,0,.1)':'0 6px 20px rgba(255,213,90,.4),0 0 0 1px rgba(255,213,90,.3)'};
+      position:relative;overflow:hidden
+    ">
+      ${!chestClaimed?`<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0,rgba(255,220,80,.4),transparent 65%);pointer-events:none"></div>`:''}
+      <div style="display:flex;align-items:center;gap:4px;justify-content:center;margin-bottom:10px">
+        <span style="font-size:18px">🎁</span>
+        <div style="font-size:16px;font-weight:700;color:#5D3A1F">
+          ${chestClaimed ? 'Стартовый подарок получен' : 'Стартовый подарок!'}
+        </div>
+      </div>
+      ${chestSVG}
+      ${chestClaimed ? `
+        <div style="text-align:center;margin-top:10px;font-size:13px;font-weight:700;color:#2D5410">
+          ✅ Подарок уже получен!
+        </div>
+      ` : chestOpened ? `
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
+          ${[
+            {ic:'coin', txt:'+100 монет', lbl:'Игровая валюта'},
+            {ic:'gem',  txt:'+50 алмазов', lbl:'Премиум валюта'},
+            {ic:'chicken', txt:'+1 курица', lbl:'В курятник', big:true}
+          ].map(r=>`
+            <div style="
+              display:flex;align-items:center;gap:10px;
+              background:linear-gradient(135deg,rgba(255,213,90,.25),rgba(255,180,0,.1));
+              border:1.5px solid rgba(255,213,90,.5);border-radius:12px;padding:8px 12px;
+            ">
+              <svg width="${r.big?36:32}" height="${r.big?36:32}" viewBox="0 0 ${r.big?'100 100':'24 24'}"><use href="#${r.ic}"/></svg>
+              <div>
+                <div style="font-size:16px;font-weight:700;color:#5D3A1F">${r.txt}</div>
+                <div style="font-size:11px;color:#8B5E3C;font-weight:600">${r.lbl}</div>
+              </div>
+            </div>
+          `).join('')}
+          <button onclick="inlineClaimChest()" style="
+            margin-top:4px;padding:13px;width:100%;
+            background:linear-gradient(180deg,#7CE042,#4CA827);
+            color:#fff;border:2px solid #fff;border-radius:16px;
+            font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;
+            box-shadow:0 5px 12px rgba(76,168,39,.4),inset 0 -3px 0 rgba(0,0,0,.2)
+          ">🎁 Забрать подарок!</button>
+        </div>
+      ` : `
+        <div style="text-align:center;margin-top:8px">
+          <div style="font-size:13px;color:#8B5E3C;font-weight:600;margin-bottom:8px;animation:bob .8s ease-in-out infinite">
+            👆 Нажми на сундук!
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;font-size:12px;font-weight:700;color:#5D3A1F">
+            <span>🪙 100 монет</span>
+            <span>•</span>
+            <span>💎 50 алмазов</span>
+            <span>•</span>
+            <span>🐔 1 курица</span>
+          </div>
+        </div>
+      `}
+    </div>
+  `;
     const prog = t.progress[cfg.id] || 0;
     const done = prog >= cfg.goal;
     const claimed = !!t.claimed[cfg.id];
@@ -2569,6 +2537,9 @@ function renderTasks(){
     ${topbarHTML()}
     ${headerHTML('ЗАДАНИЯ','Обновляются каждый день')}
     <div class="scroll" style="background:linear-gradient(180deg,#5A9928,#3D7A1A)">
+      <!-- Welcome chest -->
+      ${chestBlock}
+
       <!-- Stats header -->
       <div style="
         background:linear-gradient(135deg,#FFD55A,#E69E12);
@@ -3001,52 +2972,21 @@ function claimDaily(){
 }
 
 // ====== WELCOME CHEST ======
-let chestOpened = false;
-function openChest(){
-  if (chestOpened) return;
-  chestOpened = true;
-  // Animate lid
-  const lid = document.getElementById('chest-lid');
-  if (lid) {
-    lid.style.transition = 'transform .5s cubic-bezier(.17,.67,.47,1.3)';
-    lid.style.transform = 'rotate(-52deg) translateY(-18px)';
-  }
-  // Shoot particles
-  const wrap = document.getElementById('chest-wrap');
-  if (wrap) {
-    ['🪙','💎','🐔','⭐','✨','💫'].forEach((em, i) => {
-      setTimeout(() => {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.textContent = em;
-        const tx = (Math.random()-0.5)*120;
-        const ty = -(Math.random()*80+40);
-        p.style.setProperty('--tx', `translate(${tx}px,${ty}px)`);
-        p.style.left = `${60+tx*0.3}px`;
-        p.style.top = '40px';
-        p.style.animationDelay = `${i*0.08}s`;
-        wrap.appendChild(p);
-        setTimeout(()=>p.remove(), 1200);
-      }, i*80);
-    });
-  }
-  // Show rewards after delay
-  setTimeout(() => {
-    const hint = document.getElementById('chest-hint');
-    const rewards = document.getElementById('rewards-reveal');
-    const btn = document.getElementById('chest-btn');
-    if (hint) hint.style.display = 'none';
-    if (rewards) rewards.classList.add('show');
-    if (btn) btn.style.display = 'inline-block';
-  }, 600);
+// Welcome chest handled inline in tasks screen
+function inlineOpenChest(){
+  if(STATE.tasks.claimed['__welcome']) return;
+  if(STATE.tasks.progress['__welcome_opened']) return;
+  STATE.tasks.progress['__welcome_opened'] = 1;
+  refresh();
 }
 
-function claimChest(){
+function inlineClaimChest(){
+  if(STATE.tasks.claimed['__welcome']){ toast('Подарок уже получен!'); return; }
   STATE.coins += 100;
   STATE.gems += 50;
   STATE.b.chicken.animals.push({id:Date.now(), born:Date.now(), lastFed:Date.now(), alive:true});
-  document.getElementById('modal-chest').classList.add('hide');
-  toast('🎉 Подарок получен! +100🪙 +50💎 +1🐔');
+  STATE.tasks.claimed['__welcome'] = true;
+  toast('🎉 +100🪙 +50💎 +1🐔 получено!');
   refresh();
 }
 
@@ -3126,13 +3066,8 @@ document.getElementById('screen-main').addEventListener('touchmove', e => {
   window.addEventListener('orientationchange', ()=>setTimeout(fixHeight,200));
 })();
 
-// Initial load — show welcome chest first
+// Initial load
 updateDisplays();
-// Show chest immediately on first load
-setTimeout(() => {
-  document.getElementById('modal-chest').classList.remove('hide');
-  // Hide chest, show welcome modal
-}, 400);
 </script>
 
 </body>
