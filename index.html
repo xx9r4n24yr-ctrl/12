@@ -4,20 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#2C9CDB">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Моя Ферма</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap');
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;max-width:100%}
-html,body{font-family:'Fredoka',-apple-system,sans-serif;height:100%;overflow:hidden;user-select:none;-webkit-user-select:none;background:#1a3a5c;overscroll-behavior:none}
-body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shadow:0 0 50px rgba(0,0,0,.6);overflow:hidden}
+html{
+  height:100%;
+  height:100dvh;
+  height:-webkit-fill-available;
+}
+body{
+  font-family:'Fredoka',-apple-system,sans-serif;
+  height:100%;
+  height:100dvh;
+  height:-webkit-fill-available;
+  overflow:hidden;
+  user-select:none;-webkit-user-select:none;
+  background:#1a3a5c;
+  overscroll-behavior:none;
+  max-width:480px;
+  margin:0 auto;
+  position:relative;
+  background:#87CEEB;
+  box-shadow:0 0 50px rgba(0,0,0,.6);
+}
 
 /* SCREENS */
 .screen{display:none;position:absolute;inset:0;flex-direction:column;background:#7BB833;overflow:hidden}
 .screen.active{display:flex;animation:fade .25s ease-out}
 /* Main screen never scrolls */
-#screen-main{overflow:hidden !important;touch-action:pan-x pinch-zoom}
+#screen-main{overflow:hidden !important;touch-action:none}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 
 /* ============ TOP BAR ============ */
@@ -111,29 +132,37 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 /* ============ GRID MENU ============ */
 .menu-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;
-  background:linear-gradient(180deg,#7BB833,#5A9928);
+  background:linear-gradient(180deg,#5FAD1F,#3D8010);
   flex-shrink:0;position:relative
 }
-.menu-grid::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent)}
+.menu-grid::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(180deg,rgba(0,0,0,.3),transparent)}
+.menu-grid::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.2))}
 .mg-item{
-  background:linear-gradient(180deg,#FFF4D6,#F4DDA0);
   border:2.5px solid #fff;border-radius:18px;
-  padding:6px 4px 7px;min-height:96px;
+  padding:8px 4px 9px;min-height:96px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 5px 10px rgba(0,0,0,.25),inset 0 -4px 0 rgba(139,94,60,.2);
-  position:relative;transition:transform .12s,box-shadow .12s
+  box-shadow:0 6px 12px rgba(0,0,0,.3),inset 0 -4px 0 rgba(0,0,0,.2);
+  position:relative;transition:transform .1s,box-shadow .1s;
+  background:linear-gradient(160deg,#FFF4D6 0%,#F4DDA0 100%);
 }
-.mg-item:active{transform:translateY(3px);box-shadow:0 2px 4px rgba(0,0,0,.2)}
-.mg-item .ic{width:62px;height:58px;display:flex;align-items:center;justify-content:center}
-.mg-item .ic svg{width:100%;height:100%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
-.mg-item .nm{font-size:12px;font-weight:700;color:#5D3A1F;margin-top:2px}
+.mg-item:active{transform:translateY(3px);box-shadow:0 2px 4px rgba(0,0,0,.2),inset 0 -1px 0 rgba(0,0,0,.15)}
+.mg-item.c-green{background:linear-gradient(160deg,#E8F5E9,#C8E6C9);box-shadow:0 6px 12px rgba(76,168,39,.35),inset 0 -4px 0 rgba(45,100,20,.3)}
+.mg-item.c-blue{background:linear-gradient(160deg,#E3F2FD,#BBDEFB);box-shadow:0 6px 12px rgba(33,150,243,.3),inset 0 -4px 0 rgba(25,118,210,.3)}
+.mg-item.c-orange{background:linear-gradient(160deg,#FFF3E0,#FFE0B2);box-shadow:0 6px 12px rgba(244,166,35,.3),inset 0 -4px 0 rgba(200,120,0,.3)}
+.mg-item.c-purple{background:linear-gradient(160deg,#F3E5F5,#E1BEE7);box-shadow:0 6px 12px rgba(156,39,176,.25),inset 0 -4px 0 rgba(106,27,154,.3)}
+.mg-item.c-red{background:linear-gradient(160deg,#FFEBEE,#FFCDD2);box-shadow:0 6px 12px rgba(229,57,70,.25),inset 0 -4px 0 rgba(180,30,40,.3)}
+.mg-item .ic{width:56px;height:52px;display:flex;align-items:center;justify-content:center}
+.mg-item .ic svg{width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.mg-item .nm{font-size:12px;font-weight:700;color:#3D2510;margin-top:3px;letter-spacing:.3px}
 .mg-item .badge{
-  position:absolute;top:-6px;right:-6px;
+  position:absolute;top:-7px;right:-7px;
   background:radial-gradient(circle at 30% 30%,#FF6565,#C62828);
   color:#fff;width:24px;height:24px;border-radius:50%;
   font-size:12px;font-weight:700;
   display:flex;align-items:center;justify-content:center;
-  border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,.3)
+  border:2.5px solid #fff;box-shadow:0 3px 6px rgba(0,0,0,.35)
 }
 
 /* ============ BOTTOM NAV ============ */
@@ -229,41 +258,46 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 /* ============ INFO PANELS ============ */
 .panels{
   display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;
-  background:linear-gradient(180deg,#7BB833,#5A9928);
+  background:linear-gradient(180deg,#5FAD1F,#3D8010);
   flex-shrink:0
 }
 .panel{
-  background:linear-gradient(180deg,#FFF4D6,#F0E0A8);
-  border:2.5px solid #fff;border-radius:14px;
+  background:linear-gradient(160deg,#FEFCF0,#F4E4B0);
+  border:2.5px solid #fff;border-radius:16px;
   padding:8px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;
-  box-shadow:0 5px 10px rgba(0,0,0,.25),inset 0 -3px 0 rgba(139,94,60,.2)
+  box-shadow:0 6px 14px rgba(0,0,0,.2),inset 0 -4px 0 rgba(139,94,60,.18),inset 0 1px 0 rgba(255,255,255,.9)
 }
-.p-ttl{font-size:9.5px;font-weight:700;color:#8B5E3C;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;line-height:1.1}
+.p-ttl{
+  font-size:9px;font-weight:700;color:#8B5E3C;text-transform:uppercase;
+  letter-spacing:.6px;margin-bottom:4px;line-height:1.1;
+  background:rgba(139,94,60,.08);border-radius:6px;padding:2px 6px;width:100%
+}
 .p-ic{width:38px;height:38px;display:flex;align-items:center;justify-content:center;margin:2px 0}
 .p-ic svg{width:100%;height:100%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
-.p-big{font-size:22px;font-weight:700;color:#2D5410;line-height:1;margin:1px 0}
-.p-sub{font-size:11px;color:#5D3A1F;font-weight:600;line-height:1.2}
+.p-big{font-size:24px;font-weight:700;color:#1B5E20;line-height:1;margin:2px 0}
+.p-sub{font-size:11px;color:#4A2F0A;font-weight:600;line-height:1.25}
 .p-sub b{color:#2D5410}
 .lstar{
-  width:42px;height:42px;position:relative;display:flex;align-items:center;justify-content:center;margin:2px 0;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))
+  width:40px;height:40px;position:relative;display:flex;align-items:center;justify-content:center;margin:3px 0;
+  filter:drop-shadow(0 3px 5px rgba(0,0,0,.3))
 }
 .lstar svg{width:100%;height:100%}
 .lstar .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:17px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
 
 .btn{
-  border:1.5px solid rgba(255,255,255,.35);border-radius:12px;
+  border:1.5px solid rgba(255,255,255,.4);border-radius:12px;
   padding:7px 6px;font-family:inherit;font-size:11px;font-weight:700;color:#fff;
   cursor:pointer;width:100%;margin-top:auto;
   display:flex;align-items:center;justify-content:center;gap:4px;line-height:1.1;
-  box-shadow:0 4px 6px rgba(0,0,0,.3),inset 0 -3px 0 rgba(0,0,0,.22)
+  box-shadow:0 4px 8px rgba(0,0,0,.3),inset 0 -3px 0 rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.25)
 }
-.btn:active{transform:translateY(2px);box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .btn.green{background:linear-gradient(180deg,#7CE042,#4CA827)}
-.btn.blue{background:linear-gradient(180deg,#4FB7FF,#1976D2)}
-.btn.orange{background:linear-gradient(180deg,#FFB54F,#F4A623)}
+.btn.blue{background:linear-gradient(180deg,#5CC8FF,#1E8DD2)}
+.btn.orange{background:linear-gradient(180deg,#FFB54F,#E69012)}
 .btn.purple{background:linear-gradient(180deg,#B07CD9,#7E3FA8)}
-.btn:disabled{background:linear-gradient(180deg,#C0C0C0,#888);cursor:not-allowed;opacity:.7}
+.btn.gold{background:linear-gradient(180deg,#FFD55A,#C89000);color:#5D3A1F}
+.btn:disabled{background:linear-gradient(180deg,#C8C8C8,#909090);cursor:not-allowed;opacity:.65;box-shadow:none}
 .btn .mc{width:14px;height:14px;flex-shrink:0}
 
 .panel-stack{margin-top:6px;width:100%;display:flex;flex-direction:column;gap:3px}
@@ -293,7 +327,7 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 /* ============ ANIMALS OVERVIEW ============ */
 .aov-grid{
   display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px;
-  background:linear-gradient(180deg,#7BB833,#5A9928);flex-shrink:0
+  background:linear-gradient(180deg,#5FAD1F,#3D8010);flex-shrink:0
 }
 .aov-card{
   background:linear-gradient(180deg,#FFF4D6,#F0E0A8);
@@ -644,27 +678,36 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 }
 /* Animal slot grid for coop/barn */
 .animal-slots-dynamic{
-  position:absolute;inset:0;display:flex;flex-wrap:wrap;
-  align-items:center;justify-content:center;gap:8px;padding:12px;
-  pointer-events:none
+  position:absolute;
+  left:0;right:0;
+  top:30%;bottom:20%;
+  display:flex;flex-wrap:wrap;
+  align-items:center;justify-content:center;
+  gap:6px;padding:8px;
+  pointer-events:none;
+  z-index:3
 }
 .aslot{
-  width:70px;height:70px;
-  background:rgba(255,220,150,.2);
-  border:2px dashed rgba(255,200,100,.4);
+  width:68px;height:68px;
+  background:rgba(0,0,0,.15);
+  border:2px dashed rgba(255,200,100,.3);
   border-radius:12px;
   display:flex;align-items:center;justify-content:center;
   position:relative
 }
-.aslot.occupied{border-color:transparent;background:rgba(255,220,150,.1)}
-.aslot svg{width:58px;height:58px}
+.aslot.occupied{
+  border-color:transparent;
+  background:rgba(255,240,200,.1);
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))
+}
+.aslot svg{width:62px;height:62px}
 .aslot .died-x{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:28px;background:rgba(0,0,0,.4);border-radius:10px
+  font-size:28px;background:rgba(0,0,0,.5);border-radius:10px
 }
 .life-bar{
-  position:absolute;bottom:-2px;left:4px;right:4px;height:3px;
-  background:rgba(0,0,0,.3);border-radius:2px;overflow:hidden
+  position:absolute;bottom:-3px;left:3px;right:3px;height:4px;
+  background:rgba(0,0,0,.4);border-radius:2px;overflow:hidden
 }
 .life-fill{height:100%;border-radius:2px}
 .life-fill.new{background:#7CE042}
@@ -674,10 +717,26 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 .empty-barn{
   position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:8px;
-  background:rgba(0,0,0,.35);color:#FFE9B0;font-weight:700
+  background:rgba(0,0,0,.4);color:#FFE9B0;font-weight:700;z-index:3
 }
-.empty-barn .ei{font-size:40px}
-.empty-barn .et{font-size:14px}
+.empty-barn .ei{font-size:44px}
+.empty-barn .et{font-size:15px}
+
+/* ============ WAREHOUSE ============ */
+.warehouse-section{padding:10px}
+.wh-title{font-size:14px;font-weight:700;color:#FFD55A;text-transform:uppercase;letter-spacing:1px;
+  text-shadow:0 2px 0 rgba(0,0,0,.3);margin-bottom:8px;padding:0 2px}
+.wh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wh-item{
+  background:linear-gradient(180deg,#FFF4D6,#F0E0A8);
+  border:2.5px solid #fff;border-radius:14px;padding:10px 6px;
+  text-align:center;
+  box-shadow:0 4px 8px rgba(0,0,0,.2),inset 0 -3px 0 rgba(139,94,60,.2)
+}
+.wh-item svg{width:42px;height:42px;margin:0 auto 4px;display:block}
+.wh-item .wn{font-size:13px;font-weight:700;color:#5D3A1F}
+.wh-item .wa{font-size:22px;font-weight:700;color:#2D5410;line-height:1}
+.wh-item .wl{font-size:10px;color:#8B5E3C;font-weight:600}
 
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 </style>
@@ -1308,27 +1367,25 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
   </div>
 
   <div class="menu-grid">
-    <div class="mg-item" onclick="showScreen('screen-animals')">
+    <div class="mg-item c-green" onclick="showScreen('screen-animals')">
       <div class="ic"><svg viewBox="0 0 80 80"><use href="#i-animals"/></svg></div>
       <div class="nm">Животные</div>
     </div>
-    <div class="mg-item" onclick="showScreen('screen-fields')">
+    <div class="mg-item c-orange" onclick="showScreen('screen-fields')">
       <div class="ic"><svg viewBox="0 0 80 80"><use href="#i-fields"/></svg></div>
       <div class="nm">Поля</div>
     </div>
-    <div class="mg-item" onclick="showScreen('screen-market')">
+    <div class="mg-item c-blue" onclick="showScreen('screen-warehouse')">
+      <div class="ic" style="font-size:40px;line-height:1">📦</div>
+      <div class="nm">Склад</div>
+    </div>
+    <div class="mg-item c-red" onclick="showScreen('screen-market')">
       <div class="ic"><svg viewBox="0 0 80 80"><use href="#i-market"/></svg></div>
       <div class="nm">Рынок</div>
-      <div class="badge">2</div>
     </div>
-    <div class="mg-item" onclick="showScreen('screen-orders')">
+    <div class="mg-item c-purple" onclick="showScreen('screen-orders')">
       <div class="ic"><svg viewBox="0 0 80 80"><use href="#i-orders"/></svg></div>
       <div class="nm">Заказы</div>
-    </div>
-    <div class="mg-item" onclick="showScreen('screen-research')">
-      <div class="ic"><svg viewBox="0 0 80 80"><use href="#i-research"/></svg></div>
-      <div class="nm">Исслед.</div>
-      <div class="badge">1</div>
     </div>
     <div class="mg-item" onclick="showScreen('screen-achievements')">
       <div class="ic"><svg viewBox="0 0 80 80"><use href="#i-trophy"/></svg></div>
@@ -1349,6 +1406,7 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
     <div class="it" onclick="showScreen('screen-tasks')">
       <svg><use href="#n-tasks"/></svg>
       <span class="nm">Задания</span>
+      <div class="badge" id="tasks-badge" style="display:none">!</div>
     </div>
     <div class="it" onclick="showScreen('screen-mail')">
       <svg><use href="#n-mail"/></svg>
@@ -1403,6 +1461,9 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 
 <!-- ===================== RESEARCH ===================== -->
 <div id="screen-research" class="screen"></div>
+
+<!-- ===================== WAREHOUSE ===================== -->
+<div id="screen-warehouse" class="screen"></div>
 
 <!-- ===================== QUESTS ===================== -->
 <div id="screen-quests" class="screen"></div>
@@ -1557,7 +1618,6 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 const STATE = {
   coins:0, gems:0, ton:0, farmLevel:1,
   inv:{eggs:0,meat:0,wool:0,milk:0,wheat:0,corn:0,carrot:0,pumpkin:0},
-  // 6 field plots
   fields:[
     {id:0,crop:null,state:'empty',plantedAt:0,readyAt:0},
     {id:1,crop:null,state:'empty',plantedAt:0,readyAt:0},
@@ -1567,27 +1627,95 @@ const STATE = {
     {id:5,crop:null,state:'empty',plantedAt:0,readyAt:0}
   ],
   b:{
-    // animals: array of {id, born, lastFed, alive}
-    chicken:{lvl:1,animals:[],max:[4,8,12,16],up:[1500,3000,6000,0],buy:100,col:0,prod:'eggs',ic:'egg',rate:.0015,food:'wheat',foodAmt:3,feedEvery:12*3600*1000},
-    pig:    {lvl:1,animals:[],max:[1,2,4,6],   up:[2500,5000,10000,0],buy:300,col:0,prod:'meat',ic:'meat',rate:.0008,food:'corn', foodAmt:4,feedEvery:12*3600*1000},
-    sheep:  {lvl:1,animals:[],max:[1,3,5,8],   up:[2800,5600,11200,0],buy:250,col:0,prod:'wool',ic:'wool',rate:.0006,food:'carrot',foodAmt:3,feedEvery:12*3600*1000},
-    cow:    {lvl:1,animals:[],max:[1,2,3,4],   up:[3200,6400,12800,0],buy:500,col:0,prod:'milk',ic:'milk',rate:.0012,food:'wheat',foodAmt:5,feedEvery:12*3600*1000}
+    chicken:{lvl:1,animals:[],max:[4,8,12,16],up:[1500,3000,6000,0],buy:1,col:0,prod:'eggs',ic:'egg',rate:.0015,food:'wheat',foodAmt:3,feedEvery:12*3600*1000},
+    pig:    {lvl:1,animals:[],max:[1,2,4,6],   up:[2500,5000,10000,0],buy:2,col:0,prod:'meat',ic:'meat',rate:.0008,food:'corn', foodAmt:4,feedEvery:12*3600*1000},
+    sheep:  {lvl:1,animals:[],max:[1,3,5,8],   up:[2800,5600,11200,0],buy:3,col:0,prod:'wool',ic:'wool',rate:.0006,food:'carrot',foodAmt:3,feedEvery:12*3600*1000},
+    cow:    {lvl:1,animals:[],max:[1,2,3,4],   up:[3200,6400,12800,0],buy:5,col:0,prod:'milk',ic:'milk',rate:.0012,food:'wheat',foodAmt:5,feedEvery:12*3600*1000}
   },
   orders:[
     {id:1,t:'Кафе у Маши',n:{eggs:5,wheat:20},r:300,rg:0},
     {id:2,t:'Городской рынок',n:{milk:3,wool:2},r:500,rg:5},
     {id:3,t:'Ресторан "Колос"',n:{meat:4,carrot:15},r:800,rg:0},
     {id:4,t:'Большой магазин',n:{eggs:10,milk:5,corn:30},r:1200,rg:10}
-  ]
+  ],
+  // Daily tasks
+  tasks:{
+    date:'',       // reset daily
+    progress:{},   // {taskId: number}
+    claimed:{}     // {taskId: true}
+  }
 };
 
 // ====================== CROPS CONFIG ======================
 const CROPS = {
-  wheat:  {nm:'Пшеница', ic:'wheat',  color:'#F4A623',growMs:2*3600*1000, yield:30, cost:5},
-  corn:   {nm:'Кукуруза',ic:'corn',   color:'#FFD55A',growMs:3*3600*1000, yield:25, cost:8},
-  carrot: {nm:'Морковь', ic:'carrot', color:'#F4A623',growMs:4*3600*1000, yield:20, cost:10},
-  pumpkin:{nm:'Тыква',   ic:'pumpkin',color:'#FF9800',growMs:6*3600*1000, yield:15, cost:12}
+  wheat:  {nm:'Пшеница', ic:'wheat',  color:'#F4A623', growMs:3*60*1000,   yield:30},
+  corn:   {nm:'Кукуруза',ic:'corn',   color:'#FFD55A', growMs:8*60*1000,   yield:25},
+  carrot: {nm:'Морковь', ic:'carrot', color:'#FF7043', growMs:15*60*1000,  yield:20},
+  pumpkin:{nm:'Тыква',   ic:'pumpkin',color:'#FF9800', growMs:30*60*1000,  yield:15}
 };
+
+// ====================== DAILY TASKS CONFIG ======================
+const TASKS_CFG = [
+  {id:'login',       emoji:'☀️', title:'Ежедневный вход',   desc:'Войди в игру', goal:1, r:100, rg:0,  auto:true},
+  {id:'plant_wheat', emoji:'🌾', title:'Посади пшеницу',    desc:'Посади пшеницу на поле', goal:1, r:50, rg:0},
+  {id:'plant_corn',  emoji:'🌽', title:'Посади кукурузу',   desc:'Посади кукурузу на поле', goal:1, r:50, rg:0},
+  {id:'harvest',     emoji:'🧺', title:'Собери урожай',     desc:'Собери урожай с 2 участков', goal:2, r:120, rg:0},
+  {id:'feed_chicken',emoji:'🐔', title:'Покорми куриц',     desc:'Покорми куриц пшеницей', goal:1, r:80, rg:0},
+  {id:'feed_pig',    emoji:'🐷', title:'Покорми свинью',    desc:'Покорми свинью кукурузой', goal:1, r:80, rg:0},
+  {id:'feed_sheep',  emoji:'🐑', title:'Покорми овцу',      desc:'Покорми овцу морковью', goal:1, r:80, rg:0},
+  {id:'feed_cow',    emoji:'🐄', title:'Покорми корову',    desc:'Покорми корову пшеницей', goal:1, r:80, rg:0},
+  {id:'collect_eggs',emoji:'🥚', title:'Собери яйца',       desc:'Собери яйца из курятника', goal:5, r:150, rg:0},
+  {id:'collect_milk',emoji:'🥛', title:'Собери молоко',     desc:'Собери молоко из коровника', goal:3, r:150, rg:0},
+  {id:'sell_100',    emoji:'💰', title:'Продай за 100 монет',desc:'Получи 100+ монет на рынке', goal:100, r:100, rg:5},
+];
+
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+function initDailyTasks(){
+  const today = todayStr();
+  if(STATE.tasks.date !== today){
+    STATE.tasks.date = today;
+    STATE.tasks.progress = {};
+    STATE.tasks.claimed = {};
+    // Auto-complete login
+    STATE.tasks.progress['login'] = 1;
+  }
+}
+
+function addTaskProgress(id, amount=1){
+  initDailyTasks();
+  const cfg = TASKS_CFG.find(t=>t.id===id);
+  if(!cfg) return;
+  const cur = STATE.tasks.progress[id] || 0;
+  if(cur >= cfg.goal) return; // already done
+  STATE.tasks.progress[id] = Math.min(cfg.goal, cur + amount);
+  const newVal = STATE.tasks.progress[id];
+  if(newVal >= cfg.goal){
+    toast(`✅ Задание выполнено: ${cfg.title}!`);
+  }
+}
+
+function claimTask(id){
+  initDailyTasks();
+  const cfg = TASKS_CFG.find(t=>t.id===id);
+  if(!cfg) return;
+  if((STATE.tasks.progress[id]||0) < cfg.goal){ toast('Задание не выполнено!'); return; }
+  if(STATE.tasks.claimed[id]){ toast('Награда уже получена!'); return; }
+  STATE.tasks.claimed[id] = true;
+  STATE.coins += cfg.r;
+  if(cfg.rg) STATE.gems += cfg.rg;
+  toast(`🎁 +${cfg.r}🪙${cfg.rg?' +'+cfg.rg+'💎':''} за задание!`);
+  refresh();
+}
+
+function allTasksDone(){
+  initDailyTasks();
+  return TASKS_CFG.every(t=>(STATE.tasks.progress[t.id]||0)>=t.goal);
+}
+function allTasksClaimed(){
+  initDailyTasks();
+  return TASKS_CFG.every(t=>STATE.tasks.claimed[t.id]);
+}
 
 // ====================== ANIMALS CONFIG ======================
 const ANIMALS = {
@@ -1712,11 +1840,7 @@ function chickenSceneSVG(){
       <ellipse cx="105" cy="58" rx="28" ry="10" fill="#FFD98A" stroke="#8C5C00" stroke-width="1"/>
       <ellipse cx="195" cy="58" rx="28" ry="10" fill="#FFD98A" stroke="#8C5C00" stroke-width="1"/>
       <ellipse cx="265" cy="58" rx="28" ry="10" fill="#FFD98A" stroke="#8C5C00" stroke-width="1"/>
-      <!-- chickens (4) -->
-      <g transform="translate(8 12) scale(.55)"><use href="#chicken"/></g>
-      <g transform="translate(78 12) scale(.55)"><use href="#chicken"/></g>
-      <g transform="translate(168 12) scale(.55)"><use href="#chicken"/></g>
-      <g transform="translate(238 12) scale(.55)"><use href="#chicken"/></g>
+      <!-- chicken slots managed by overlay -->
       <!-- shelf board -->
       <rect x="-5" y="68" width="310" height="6" fill="#3A2410"/>
     </g>
@@ -1827,8 +1951,7 @@ function pigSceneSVG(){
       <path d="M2 7 Q24 -8 46 7" stroke="#555" stroke-width="1.5" fill="none"/>
     </g>
 
-    <!-- pig in center, big -->
-    <g transform="translate(140 130) scale(1.6)"><use href="#pig"/></g>
+    <!-- pig managed by overlay -->
   </svg>`;
 }
 
@@ -1889,8 +2012,7 @@ function sheepSceneSVG(){
       <ellipse cx="320" cy="315" rx="130" ry="20" fill="#FFD98A"/>
     </g>
 
-    <!-- sheep -->
-    <g transform="translate(160 130) scale(1.7)"><use href="#sheep"/></g>
+    <!-- sheep managed by overlay -->
   </svg>`;
 }
 
@@ -1958,8 +2080,7 @@ function cowSceneSVG(){
       <ellipse cx="330" cy="320" rx="120" ry="18" fill="#FFD98A"/>
     </g>
 
-    <!-- cow -->
-    <g transform="translate(140 105) scale(2)"><use href="#cow"/></g>
+    <!-- cow managed by overlay -->
   </svg>`;
 }
 
@@ -1987,7 +2108,7 @@ function panelsHTML(animal){
       <div class="p-ttl">Уровень здания</div>
       <div class="lstar"><svg viewBox="0 0 32 32"><use href="#star"/></svg><span class="num">${b.lvl}</span></div>
       <div class="p-sub">Мест: <b>${cnt}/${max}</b></div>
-      <div class="p-sub">До ${max} <b>${cfg.plusInfo}</b></div>
+      <div class="p-sub">След. ур.: <b>${b.lvl<4?cfg.plusInfo:'MAX'}</b></div>
       <button class="btn green" onclick="upgradeBuilding('${animal}')">
         <svg class="mc"><use href="#mcoin"/></svg> ${upCost}${b.lvl<4?' Улучшить':''}
       </button>
@@ -1997,7 +2118,7 @@ function panelsHTML(animal){
       <div class="p-ic"><svg viewBox="0 0 24 24"><use href="#${cfg.prodIcon}"/></svg></div>
       <div class="p-big" id="${animal}-collected">${Math.floor(b.col)}</div>
       <div class="p-sub">${cfg.prodName} на складе</div>
-      ${cnt>0?`<div class="p-sub" style="margin-top:3px">Произв: <b>${cfg.rateText}</b></div>`:''}
+      ${cnt>0?`<div class="p-sub" style="margin-top:3px">Произв: <b>${cfg.rateText}</b></div>`:'<div class="p-sub" style="margin-top:3px">Купи животных ниже</div>'}
       <button class="btn green" style="margin-top:auto" onclick="collectAnimal('${animal}')">Собрать всё</button>
     </div>
     <div class="panel">
@@ -2006,16 +2127,18 @@ function panelsHTML(animal){
       <div class="feed-bar"><div class="feed-fill ${feedClass}" style="width:${feedPct.toFixed(0)}%"></div></div>
       <div class="p-sub">${feedPct.toFixed(0)}% сытости</div>
       ${cnt>0?`<div class="p-sub">Нужно: <b>${fc.amt} ${foodNames[b.food]}</b></div>`:''}
-      ${cnt>0?`<div class="p-sub">Склад: <b>${STATE.inv[b.food]||0}</b></div>`:''}
-      <button class="btn ${hasFood&&cnt>0?'orange':'orange'}" style="margin-top:auto"
-        ${cnt===0?'disabled':''} onclick="feedAnimals('${animal}')">
-        ${cnt===0?'Нет животных':'🍞 Покормить'}
+      ${cnt>0?`<div class="p-sub">На складе: <b>${STATE.inv[b.food]||0}</b></div>`:''}
+      <button class="btn ${cnt>0&&hasFood?'orange':'orange'}" style="margin-top:auto"
+        ${cnt===0||!hasFood?'disabled':''} onclick="feedAnimals('${animal}')">
+        ${cnt===0?'Нет животных':hasFood?'🍞 Покормить':'❌ Нет еды'}
       </button>
     </div>
   </div>
   <div style="padding:6px 10px 4px;background:linear-gradient(180deg,#5A9928,#3D7A1A)">
     <button class="btn blue" onclick="buyAnimal('${animal}')" style="margin-top:0">
-      Купить ${cfg.nameSing} <svg class="mc"><use href="#mcoin"/></svg> ${b.buy}
+      Купить ${cfg.nameSing}
+      <svg style="width:18px;height:18px;vertical-align:middle;margin:0 2px" viewBox="0 0 24 24"><use href="#ton"/></svg>
+      ${b.buy} TON
     </button>
   </div>`;
 }
@@ -2026,31 +2149,45 @@ function animalSlotsOverlay(animal){
   const max = b.max[b.lvl-1];
   const alive = getAliveAnimals(animal);
   const cnt = alive.length;
-  if(cnt===0){
+
+  if(cnt === 0){
     return `<div class="empty-barn">
       <div class="ei">🏚</div>
       <div class="et">Нет животных</div>
-      <div style="font-size:12px;opacity:.8;margin-top:4px">Купи ${ANIMALS[animal].nameSing} ниже</div>
+      <div style="font-size:12px;opacity:.75;margin-top:2px">Купи ${ANIMALS[animal].nameSing} ниже</div>
     </div>`;
   }
+
   const now = Date.now();
+  // How many slots to show (alive + up to 2 empty to indicate capacity)
+  const showSlots = Math.min(max, Math.max(cnt, cnt + 1));
   const slots = [];
-  for(let i=0;i<Math.min(cnt,max);i++){
+
+  for(let i = 0; i < showSlots; i++){
     const a = alive[i];
-    const lifePct = lifePercent(animal, a.born);
-    const lc = lifePct<50?'new':lifePct<80?'mid':'old';
-    const isHung = now-a.lastFed > b.feedEvery;
-    slots.push(`<div class="aslot occupied">
-      <svg viewBox="0 0 100 100"><use href="#${ANIMALS[animal].icon}"/></svg>
-      <div class="life-bar"><div class="life-fill ${lc}" style="width:${(100-lifePct).toFixed(0)}%"></div></div>
-      ${isHung?'<div style="position:absolute;top:-4px;right:-4px;font-size:14px">😰</div>':''}
-    </div>`);
+    if(a){
+      const lifePct = lifePercent(animal, a.born);
+      const lc = lifePct < 50 ? 'new' : lifePct < 80 ? 'mid' : 'old';
+      const isHung = now - a.lastFed > b.feedEvery;
+      // Size varies by animal type: chickens smaller, cow bigger
+      const sizes = {chicken:58, pig:62, sheep:60, cow:64};
+      const sz = sizes[animal] || 60;
+      slots.push(`<div class="aslot occupied">
+        <svg width="${sz}" height="${sz}" viewBox="0 0 100 100"><use href="#${ANIMALS[animal].icon}"/></svg>
+        <div class="life-bar"><div class="life-fill ${lc}" style="width:${(100-lifePct).toFixed(0)}%"></div></div>
+        ${isHung ? '<div style="position:absolute;top:-5px;right:-5px;font-size:16px;line-height:1">😰</div>' : ''}
+      </div>`);
+    } else {
+      slots.push(`<div class="aslot"></div>`);
+    }
   }
-  // Empty slots
-  for(let i=cnt;i<Math.min(max,4);i++){
-    slots.push(`<div class="aslot"></div>`);
-  }
-  return `<div class="animal-slots-dynamic">${slots.join('')}</div>`;
+
+  // Pick layout style based on animal
+  const wrapStyle = animal === 'chicken'
+    ? 'top:28%;bottom:18%;align-items:flex-start;padding-top:8px'
+    : 'top:25%;bottom:15%';
+
+  return `<div class="animal-slots-dynamic" style="${wrapStyle}">${slots.join('')}</div>`;
 }
 
 function renderAnimalScreen(animal){
@@ -2355,37 +2492,137 @@ function renderQuests(){
 }
 
 function renderTasks(){
+  initDailyTasks();
+  const t = STATE.tasks;
+  const completedCount = TASKS_CFG.filter(c=>(t.progress[c.id]||0)>=c.goal).length;
+  const claimedCount = TASKS_CFG.filter(c=>t.claimed[c.id]).length;
+  const allDone = completedCount === TASKS_CFG.length;
+  const allClaimed = claimedCount === TASKS_CFG.length;
+  // Bonus reward if all claimed
+  const bonusAvail = allDone && !t.claimed['__all'];
+  const totalReward = TASKS_CFG.reduce((s,c)=>s+c.r,0);
+
+  const taskCards = TASKS_CFG.map(cfg => {
+    const prog = t.progress[cfg.id] || 0;
+    const done = prog >= cfg.goal;
+    const claimed = !!t.claimed[cfg.id];
+    const pct = Math.min(100, prog / cfg.goal * 100);
+
+    let stateColor = '#8B5E3C';
+    let bg = 'linear-gradient(180deg,#FFF4D6,#F0E0A8)';
+    let border = '#fff';
+    if(done && !claimed){ bg='linear-gradient(135deg,#E8F5E9,#C8E6C9)'; border='#7CE042'; stateColor='#2D5410'; }
+    if(claimed){ bg='linear-gradient(135deg,#E8F5E9,#A5D6A7)'; border='#4CA827'; stateColor='#1B5E20'; }
+
+    return `<div style="
+      background:${bg};border:2.5px solid ${border};border-radius:18px;
+      padding:12px;margin-bottom:8px;
+      box-shadow:${done?'0 6px 16px rgba(76,168,39,.25)':'0 4px 10px rgba(0,0,0,.15)'};
+      transition:all .3s;position:relative;overflow:hidden
+    ">
+      ${done&&!claimed?`<div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#7CE042,#4CA827);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:0 16px 0 12px">ЗАБРАТЬ!</div>`:''}
+      ${claimed?`<div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#4CA827,#2D5410);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:0 16px 0 12px">✓ ПОЛУЧЕНО</div>`:''}
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="
+          width:46px;height:46px;border-radius:14px;flex-shrink:0;
+          background:${done?'linear-gradient(135deg,#7CE042,#4CA827)':'linear-gradient(135deg,#FFD98A,#F4A623)'};
+          border:2px solid ${done?'#4CA827':'#E69E12'};
+          display:flex;align-items:center;justify-content:center;font-size:24px;
+          box-shadow:0 3px 6px rgba(0,0,0,.2);
+          ${claimed?'filter:grayscale(.4)':''}
+        ">${cfg.emoji}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:700;color:${claimed?'#555':'#5D3A1F'};
+            ${claimed?'text-decoration:line-through;opacity:.7':''}">
+            ${cfg.title}
+          </div>
+          <div style="font-size:11px;color:${stateColor};font-weight:600;margin-top:1px">${cfg.desc}</div>
+        </div>
+        <div style="
+          background:${claimed?'rgba(76,168,39,.2)':'linear-gradient(135deg,#FFD55A,#E69E12)'};
+          border:1.5px solid ${claimed?'#4CA827':'#fff'};
+          border-radius:12px;padding:5px 8px;text-align:center;flex-shrink:0;min-width:54px
+        ">
+          <div style="font-size:12px;font-weight:700;color:${claimed?'#2D5410':'#5D3A1F'}">+${cfg.r}🪙</div>
+          ${cfg.rg?`<div style="font-size:10px;font-weight:700;color:#4FB7FF">+${cfg.rg}💎</div>`:''}
+        </div>
+      </div>
+      ${!claimed ? `
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;height:8px;background:rgba(139,94,60,.2);border-radius:5px;overflow:hidden;border:1.5px solid rgba(139,94,60,.2)">
+            <div style="height:100%;width:${pct}%;background:${done?'linear-gradient(90deg,#7CE042,#4CA827)':'linear-gradient(90deg,#FFD55A,#F4A623)'};border-radius:4px;transition:width .4s"></div>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:${stateColor};white-space:nowrap">${prog}/${cfg.goal}</div>
+          ${done ? `<button onclick="claimTask('${cfg.id}')" style="
+            background:linear-gradient(180deg,#7CE042,#4CA827);color:#fff;
+            border:1.5px solid rgba(255,255,255,.4);border-radius:10px;
+            padding:5px 12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+            box-shadow:0 3px 6px rgba(0,0,0,.25),inset 0 -2px 0 rgba(0,0,0,.2);
+            white-space:nowrap
+          ">Забрать 🎁</button>` : ''}
+        </div>
+      ` : `<div style="font-size:12px;color:#2D5410;font-weight:700;text-align:center">✅ Выполнено и получено!</div>`}
+    </div>`;
+  }).join('');
+
   return `
-    ${headerHTML('ЗАДАНИЯ','Ежедневные')}
-    <div class="scroll" style="background:linear-gradient(180deg,#7BB833,#5A9928)">
-      <div class="card">
-        <div class="card-row">
-          <div class="card-ic" style="background:linear-gradient(180deg,#FFD55A,#E69E12);font-size:22px">🌅</div>
-          <div class="card-info"><div class="card-nm">Ежедневный вход</div><div class="card-desc">Войди в игру сегодня</div></div>
-          <div class="card-rew">+100🪙</div>
+    ${topbarHTML()}
+    ${headerHTML('ЗАДАНИЯ','Обновляются каждый день')}
+    <div class="scroll" style="background:linear-gradient(180deg,#5A9928,#3D7A1A)">
+      <!-- Stats header -->
+      <div style="
+        background:linear-gradient(135deg,#FFD55A,#E69E12);
+        margin:10px;border-radius:16px;padding:12px 16px;
+        border:2.5px solid #fff;
+        box-shadow:0 5px 12px rgba(0,0,0,.25);
+        display:flex;align-items:center;gap:12px
+      ">
+        <div style="font-size:32px">📋</div>
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:700;color:#5D3A1F">Ежедневные задания</div>
+          <div style="font-size:12px;color:#7A4F2F;font-weight:600">Выполнено: ${completedCount}/${TASKS_CFG.length}</div>
         </div>
-        <div class="p-text" style="color:#2D5410">✅ Выполнено</div>
-      </div>
-      <div class="card">
-        <div class="card-row">
-          <div class="card-ic"><svg viewBox="0 0 24 24"><use href="#milk"/></svg></div>
-          <div class="card-info"><div class="card-nm">Собери молоко</div><div class="card-desc">5 молока из коровника</div></div>
-          <div class="card-rew">+150🪙</div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:700;color:#5D3A1F">~${totalReward}🪙</div>
+          <div style="font-size:10px;color:#7A4F2F;font-weight:600">всего наград</div>
         </div>
-        <div class="progress"><div class="fill" style="width:40%"></div></div>
-        <div class="p-text">2/5 молока</div>
       </div>
-      <div class="card">
-        <div class="card-row">
-          <div class="card-ic"><svg viewBox="0 0 80 80"><use href="#i-orders"/></svg></div>
-          <div class="card-info"><div class="card-nm">Выполни 2 заказа</div><div class="card-desc">Доставь товары</div></div>
-          <div class="card-rew">+25💎</div>
+
+      ${bonusAvail ? `
+        <div style="
+          background:linear-gradient(135deg,#E3F2FD,#BBDEFB);
+          margin:0 10px 10px;border-radius:16px;padding:14px 16px;
+          border:2.5px solid #4FB7FF;
+          box-shadow:0 5px 12px rgba(79,183,255,.3);
+          display:flex;align-items:center;gap:12px
+        ">
+          <div style="font-size:32px">🏆</div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:700;color:#01579B">Бонус за все задания!</div>
+            <div style="font-size:12px;color:#0277BD;font-weight:600">+500🪙 +20💎</div>
+          </div>
+          <button onclick="claimAllBonus()" style="
+            background:linear-gradient(180deg,#4FB7FF,#1976D2);color:#fff;
+            border:1.5px solid #fff;border-radius:12px;
+            padding:8px 14px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+            box-shadow:0 3px 8px rgba(0,0,0,.25)
+          ">Забрать!</button>
         </div>
-        <div class="progress"><div class="fill" style="width:0"></div></div>
-        <div class="p-text">0/2 заказов</div>
-      </div>
+      ` : ''}
+
+      <div style="padding:0 10px 10px">${taskCards}</div>
     </div>
   `;
+}
+
+function claimAllBonus(){
+  if(STATE.tasks.claimed['__all']){ toast('Бонус уже получен!'); return; }
+  if(!allTasksDone()){ toast('Сначала выполни все задания!'); return; }
+  STATE.tasks.claimed['__all'] = true;
+  STATE.coins += 500;
+  STATE.gems += 20;
+  toast('🏆 Бонус за все задания! +500🪙 +20💎');
+  refresh();
 }
 
 function renderFriends(){
@@ -2439,7 +2676,94 @@ function renderShop(){
   `;
 }
 
-function renderSettings(){
+function renderWarehouse(){
+  const allItems = [
+    {k:'eggs',  ic:'egg',    nm:'Яйца',    cat:'animal'},
+    {k:'milk',  ic:'milk',   nm:'Молоко',  cat:'animal'},
+    {k:'wool',  ic:'wool',   nm:'Шерсть',  cat:'animal'},
+    {k:'meat',  ic:'meat',   nm:'Мясо',    cat:'animal'},
+    {k:'wheat', ic:'wheat',  nm:'Пшеница', cat:'field'},
+    {k:'corn',  ic:'corn',   nm:'Кукуруза',cat:'field'},
+    {k:'carrot',ic:'carrot', nm:'Морковь', cat:'field'},
+    {k:'pumpkin',ic:'pumpkin',nm:'Тыква',  cat:'field'},
+  ];
+  const totalItems = allItems.reduce((s,i)=>s+(STATE.inv[i.k]||0),0);
+  return `
+    ${topbarHTML()}
+    ${headerHTML('СКЛАД','Хранилище')}
+    <div class="scroll" style="background:linear-gradient(180deg,#7BB833,#5A9928)">
+      <div style="padding:10px 10px 4px;display:flex;align-items:center;justify-content:space-between">
+        <div style="color:#FFD55A;font-size:12px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.3)">
+          📦 Всего предметов: ${totalItems}
+        </div>
+        <div style="color:#FFE9B0;font-size:11px;font-weight:600">Нажми для продажи</div>
+      </div>
+
+      <div class="warehouse-section">
+        <div class="wh-title">🐄 Продукция животных</div>
+        <div class="wh-grid">
+          ${allItems.filter(i=>i.cat==='animal').map(i=>{
+            const amt = STATE.inv[i.k]||0;
+            const pr = {eggs:7,milk:10,wool:9,meat:15}[i.k]||5;
+            return `<div class="wh-item" onclick="sellFromWarehouse('${i.k}',${pr})" style="${amt===0?'opacity:.5':''}">
+              <svg viewBox="0 0 24 24"><use href="#${i.ic}"/></svg>
+              <div class="wa">${amt}</div>
+              <div class="wn">${i.nm}</div>
+              <div class="wl">🪙${pr}/шт</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="warehouse-section">
+        <div class="wh-title">🌾 Корм для животных</div>
+        <div class="wh-grid">
+          ${allItems.filter(i=>i.cat==='field').map(i=>{
+            const amt = STATE.inv[i.k]||0;
+            const pr = {wheat:3,corn:4,carrot:5,pumpkin:6}[i.k]||3;
+            return `<div class="wh-item" onclick="sellFromWarehouse('${i.k}',${pr})" style="${amt===0?'opacity:.5':''}">
+              <svg viewBox="0 0 24 24"><use href="#${i.ic}"/></svg>
+              <div class="wa">${amt}</div>
+              <div class="wn">${i.nm}</div>
+              <div class="wl">🪙${pr}/шт</div>
+            </div>`;
+          }).join('')}
+        </div>
+        <div style="background:rgba(255,220,100,.15);border:1.5px solid rgba(255,213,90,.3);border-radius:12px;padding:8px 12px;margin-top:8px;font-size:11px;color:#FFE9B0;font-weight:600">
+          ⚠️ Полевые культуры — корм для животных. Продавай только излишки!
+        </div>
+      </div>
+
+      <div style="padding:10px">
+        <button class="collect-all" onclick="sellAllProducts()" style="margin:0;width:100%">
+          💰 Продать всю продукцию (яйца/молоко/шерсть/мясо)
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function sellFromWarehouse(key, price){
+  const amt = STATE.inv[key]||0;
+  if(amt<=0){ toast('Нечего продавать'); return; }
+  STATE.coins += amt * price;
+  STATE.inv[key] = 0;
+  toast(`+${fmt(amt*price)} 🪙 за ${amt} шт.`);
+  refresh();
+}
+
+function sellAllProducts(){
+  const prices = {eggs:7,milk:10,wool:9,meat:15};
+  let total = 0;
+  Object.entries(prices).forEach(([k,p])=>{
+    total += (STATE.inv[k]||0) * p;
+    STATE.inv[k] = 0;
+  });
+  if(total===0){ toast('Нет продукции для продажи'); return; }
+  STATE.coins += total;
+  toast(`+${fmt(total)} 🪙 за всю продукцию!`);
+  refresh();
+}
   return `
     ${headerHTML('НАСТРОЙКИ','v1.0.0')}
     <div style="padding:16px;flex:1;background:linear-gradient(180deg,#7BB833,#5A9928)">
@@ -2474,6 +2798,7 @@ const RENDERERS = {
   'screen-orders': renderOrders,
   'screen-achievements': renderAchievements,
   'screen-research': renderResearch,
+  'screen-warehouse': renderWarehouse,
   'screen-quests': renderQuests,
   'screen-tasks': renderTasks,
   'screen-friends': renderFriends,
@@ -2497,38 +2822,35 @@ function showScreen(id){
 }
 
 function updateDisplays(){
+  initDailyTasks();
   $$('[data-coins]').forEach(el => el.textContent = fmt(STATE.coins));
   $$('[data-gems]').forEach(el => el.textContent = STATE.gems);
   $$('[data-ton]').forEach(el => el.textContent = STATE.ton.toFixed(2));
   $$('[data-flevel]').forEach(el => el.textContent = STATE.farmLevel);
   const mb = document.getElementById('main-lvl-badge');
-  if (mb) mb.textContent = STATE.farmLevel;
+  if(mb) mb.textContent = STATE.farmLevel;
   Object.keys(STATE.inv).forEach(k => {
     $$(`[data-inv="${k}"]`).forEach(el => el.textContent = STATE.inv[k]);
   });
+  // Tasks badge: show if any completed but not claimed
+  const hasPending = TASKS_CFG.some(c => {
+    const done = (STATE.tasks.progress[c.id]||0) >= c.goal;
+    return done && !STATE.tasks.claimed[c.id];
+  });
+  const tb = document.getElementById('tasks-badge');
+  if(tb) tb.style.display = hasPending ? 'flex' : 'none';
 }
 
 // ====================== ACTIONS ======================
-function collectAnimal(animal){
-  const b = STATE.b[animal];
-  const amt = Math.floor(b.col);
-  if (amt <= 0) { toast('Нечего собирать! Подождите.'); return; }
-  b.col = 0;
-  STATE.inv[b.prod] += amt;
-  const cfg = ANIMALS[animal];
-  toast(`+${amt} ${cfg.prodName} → склад!`);
-  refresh();
-}
-
 function buyAnimal(animal){
   const b = STATE.b[animal];
   const max = b.max[b.lvl-1];
   const cnt = getAliveCount(animal);
   if (cnt >= max) { toast('Нет места! Улучшите постройку.'); return; }
-  if (STATE.coins < b.buy) { toast('Недостаточно монет!'); return; }
-  STATE.coins -= b.buy;
+  if (STATE.ton < b.buy) { toast(`Нужно ${b.buy} TON! Нажми + рядом с TON`); return; }
+  STATE.ton -= b.buy;
   b.animals.push({id:Date.now(), born:Date.now(), lastFed:Date.now(), alive:true});
-  toast(`✨ Куплено! Теперь ${getAliveCount(animal)} животных`);
+  toast(`✨ Куплено за ${b.buy} TON! Животных: ${getAliveCount(animal)}`);
   refresh();
 }
 
@@ -2549,14 +2871,34 @@ function feedAnimals(animal){
   if(cnt===0){ toast('Нет животных для кормления'); return; }
   const fc = feedCost(animal);
   if((STATE.inv[fc.food]||0) < fc.amt){
-    const foodNames={wheat:'пшеницы',corn:'кукурузы',carrot:'моркови'};
-    toast(`Нужно ${fc.amt} ${foodNames[fc.food]||fc.food}! На складе: ${STATE.inv[fc.food]||0}`);
+    const fn={wheat:'пшеницы',corn:'кукурузы',carrot:'моркови'};
+    toast(`Нужно ${fc.amt} ${fn[fc.food]||fc.food}! Есть: ${STATE.inv[fc.food]||0}`);
     return;
   }
   STATE.inv[fc.food] -= fc.amt;
-  const now=Date.now();
-  getAliveAnimals(animal).forEach(a=>{ a.lastFed=now; });
-  toast(`🍞 ${ANIMALS[animal].ru.toLowerCase().replace('курятник','курочки').replace('свинарник','свинки').replace('овчарня','овечки').replace('коровник','коровки')} накормлены!`);
+  const now = Date.now();
+  getAliveAnimals(animal).forEach(a=>{ a.lastFed = now; });
+  // Track daily tasks
+  if(animal==='chicken') addTaskProgress('feed_chicken');
+  if(animal==='pig')     addTaskProgress('feed_pig');
+  if(animal==='sheep')   addTaskProgress('feed_sheep');
+  if(animal==='cow')     addTaskProgress('feed_cow');
+  const nms={chicken:'Курочки',pig:'Свинки',sheep:'Овечки',cow:'Коровки'};
+  toast(`🍞 ${nms[animal]||animal} накормлены!`);
+  refresh();
+}
+
+function collectAnimal(animal){
+  const b = STATE.b[animal];
+  const amt = Math.floor(b.col);
+  if (amt <= 0) { toast('Нечего собирать! Подождите.'); return; }
+  b.col = 0;
+  STATE.inv[b.prod] += amt;
+  const cfg = ANIMALS[animal];
+  // Track daily tasks
+  if(animal==='chicken') addTaskProgress('collect_eggs', amt);
+  if(animal==='cow')     addTaskProgress('collect_milk', amt);
+  toast(`+${amt} ${cfg.prodName} → склад!`);
   refresh();
 }
 
@@ -2580,6 +2922,9 @@ function plant(cropKey){
   plot.plantedAt = Date.now();
   plot.readyAt = Date.now() + crop.growMs;
   closeSeedModal();
+  // Track daily tasks
+  if(cropKey==='wheat') addTaskProgress('plant_wheat');
+  if(cropKey==='corn')  addTaskProgress('plant_corn');
   toast(`🌱 ${crop.nm} посажена! Готово через ${fmtTime(crop.growMs)}`);
   refresh();
 }
@@ -2588,8 +2933,8 @@ function harvestPlot(plotId){
   if(!plot || plot.state!=='ready') return;
   const crop = CROPS[plot.crop];
   STATE.inv[plot.crop] = (STATE.inv[plot.crop]||0) + crop.yield;
+  addTaskProgress('harvest');
   toast(`🌾 +${crop.yield} ${crop.nm} → склад!`);
-  // Reset plot
   plot.crop = null; plot.state = 'empty'; plot.plantedAt = 0; plot.readyAt = 0;
   refresh();
 }
@@ -2597,9 +2942,11 @@ function harvestPlot(plotId){
 function sell(key, price){
   const amt = STATE.inv[key] || 0;
   if (amt <= 0) return;
-  STATE.coins += amt * price;
+  const earned = amt * price;
+  STATE.coins += earned;
   STATE.inv[key] = 0;
-  toast(`+${fmt(amt*price)} 🪙`);
+  addTaskProgress('sell_100', earned);
+  toast(`+${fmt(earned)} 🪙`);
   refresh();
 }
 
@@ -2629,7 +2976,11 @@ function refresh(){
 
 function buyCoins(){ showScreen('screen-shop'); }
 function buyGems(){ showScreen('screen-shop'); }
-function buyTon(){ toast('💎 TON — скоро!'); }
+function buyTon(){
+  STATE.ton += 100;
+  toast('💎 +100 TON получено!');
+  updateDisplays();
+}
 function doResearch(name){ toast(`🔬 "${name}" начато!`); }
 function inviteFriends(){
   if (window.Telegram?.WebApp) {
@@ -2751,15 +3102,29 @@ document.getElementById('screen-main').addEventListener('touchmove', e => {
 }, { passive: false });
 
 // ====================== TELEGRAM INTEGRATION ======================
-if (window.Telegram?.WebApp) {
-  try {
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-    tg.setHeaderColor('#1E6FB0');
-    tg.setBackgroundColor('#7BB833');
-  } catch(e) { console.warn('Telegram WebApp init error:', e); }
-}
+(function(){
+  const tg = window.Telegram?.WebApp;
+  if(tg){
+    try {
+      tg.ready();
+      tg.expand();
+      if(tg.requestFullscreen) tg.requestFullscreen();
+      tg.setHeaderColor('#1E6FB0');
+      tg.setBackgroundColor('#7BB833');
+      tg.enableClosingConfirmation?.();
+      tg.disableVerticalSwipes?.();
+    } catch(e){ console.warn('TG init:', e); }
+  }
+  // Force full height on iOS Safari
+  function fixHeight(){
+    const vh = window.innerHeight;
+    document.body.style.height = vh + 'px';
+    document.querySelectorAll('.screen').forEach(s=>s.style.height = vh+'px');
+  }
+  fixHeight();
+  window.addEventListener('resize', fixHeight);
+  window.addEventListener('orientationchange', ()=>setTimeout(fixHeight,200));
+})();
 
 // Initial load — show welcome chest first
 updateDisplays();
