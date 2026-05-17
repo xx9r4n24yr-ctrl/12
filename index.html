@@ -570,6 +570,115 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
+/* ============ FIELD PLOTS ============ */
+.plots-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px}
+.plot{
+  background:linear-gradient(180deg,#FFF4D6,#F0E0A8);
+  border:2.5px solid #fff;border-radius:18px;padding:10px;
+  box-shadow:0 5px 10px rgba(0,0,0,.2),inset 0 -3px 0 rgba(139,94,60,.2);
+  min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;cursor:pointer;transition:transform .12s
+}
+.plot:active{transform:translateY(2px)}
+.plot.empty{background:linear-gradient(180deg,#C49671 0%,#8B5E3C 100%);border-color:#5D3A1F}
+.plot.empty .plot-soil{
+  width:100%;height:60px;border-radius:12px;
+  background:repeating-linear-gradient(180deg,#5D3A1F 0,#5D3A1F 4px,#3A2410 4px,#3A2410 8px);
+  opacity:.8;margin-bottom:6px
+}
+.plot.growing{background:linear-gradient(180deg,#E8F5E9,#C8E6C9)}
+.plot.ready{background:linear-gradient(180deg,#FFF9C4,#FFF176);animation:readyPulse 2s ease-in-out infinite}
+@keyframes readyPulse{0%,100%{box-shadow:0 5px 10px rgba(0,0,0,.2),0 0 0 0 rgba(255,213,90,.5)}50%{box-shadow:0 5px 10px rgba(0,0,0,.2),0 0 0 8px rgba(255,213,90,0)}}
+.plot-ic{width:54px;height:54px;display:flex;align-items:center;justify-content:center;margin:4px 0}
+.plot-ic svg{width:100%;height:100%}
+.plot-nm{font-size:13px;font-weight:700;color:#5D3A1F}
+.plot-timer{font-size:12px;font-weight:700;color:#2D5410;margin:3px 0}
+.grow-bar{width:100%;height:7px;background:rgba(139,94,60,.25);border-radius:4px;overflow:hidden;border:1.5px solid #8B5E3C;margin:3px 0}
+.grow-fill{height:100%;background:linear-gradient(90deg,#7CE042,#4CA827);border-radius:3px;transition:width .5s}
+.plot-btn{font-family:inherit;font-size:11px;font-weight:700;color:#fff;border:1.5px solid rgba(255,255,255,.35);border-radius:10px;padding:6px 10px;cursor:pointer;margin-top:4px;width:100%;box-shadow:0 3px 5px rgba(0,0,0,.25),inset 0 -2px 0 rgba(0,0,0,.2)}
+.plot-btn.plant{background:linear-gradient(180deg,#8B5E3C,#5D3A1F)}
+.plot-btn.harvest{background:linear-gradient(180deg,#7CE042,#4CA827)}
+.plot-btn:active{transform:translateY(2px)}
+/* Seed selection modal */
+.seed-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:flex-end;justify-content:center;z-index:300;backdrop-filter:blur(3px)}
+.seed-modal.hide{display:none}
+.seed-sheet{
+  background:linear-gradient(180deg,#FFF4D6,#F0E0A8);
+  border-radius:24px 24px 0 0;padding:20px;width:100%;max-width:480px;
+  border:3px solid #FFD55A;border-bottom:none;
+  box-shadow:0 -8px 30px rgba(0,0,0,.4)
+}
+.seed-ttl{font-size:18px;font-weight:700;color:#5D3A1F;text-align:center;margin-bottom:14px}
+.seed-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.seed-item{
+  background:linear-gradient(180deg,#fff,#FFF4D6);
+  border:2.5px solid #fff;border-radius:14px;padding:12px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  box-shadow:0 3px 8px rgba(0,0,0,.15),inset 0 -2px 0 rgba(139,94,60,.15);
+  transition:transform .12s
+}
+.seed-item:active{transform:scale(.97)}
+.seed-ic{width:40px;height:40px;flex-shrink:0}
+.seed-ic svg{width:100%;height:100%}
+.seed-info .s-nm{font-size:13px;font-weight:700;color:#5D3A1F}
+.seed-info .s-time{font-size:11px;color:#8B5E3C;font-weight:600}
+.seed-info .s-cost{font-size:11px;font-weight:700;color:#2D5410}
+.seed-cancel{margin-top:10px;width:100%;padding:12px;background:linear-gradient(180deg,#C0C0C0,#888);color:#fff;border:none;border-radius:14px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer}
+
+/* ============ FEEDING UI ============ */
+.feed-bar{
+  width:100%;height:8px;background:rgba(139,94,60,.25);border-radius:4px;
+  overflow:hidden;border:1.5px solid #8B5E3C;margin:3px 0
+}
+.feed-fill{height:100%;border-radius:3px;transition:width .5s}
+.feed-fill.ok{background:linear-gradient(90deg,#7CE042,#4CA827)}
+.feed-fill.warn{background:linear-gradient(90deg,#FFB54F,#F4A623)}
+.feed-fill.bad{background:linear-gradient(90deg,#FF6565,#C62828)}
+.hungry-badge{
+  position:absolute;top:-5px;left:-5px;
+  background:radial-gradient(circle at 30% 30%,#FF6565,#C62828);
+  color:#fff;border-radius:50%;width:24px;height:24px;
+  font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid #fff;animation:pulse 1.2s infinite
+}
+/* Animal slot grid for coop/barn */
+.animal-slots-dynamic{
+  position:absolute;inset:0;display:flex;flex-wrap:wrap;
+  align-items:center;justify-content:center;gap:8px;padding:12px;
+  pointer-events:none
+}
+.aslot{
+  width:70px;height:70px;
+  background:rgba(255,220,150,.2);
+  border:2px dashed rgba(255,200,100,.4);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative
+}
+.aslot.occupied{border-color:transparent;background:rgba(255,220,150,.1)}
+.aslot svg{width:58px;height:58px}
+.aslot .died-x{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:28px;background:rgba(0,0,0,.4);border-radius:10px
+}
+.life-bar{
+  position:absolute;bottom:-2px;left:4px;right:4px;height:3px;
+  background:rgba(0,0,0,.3);border-radius:2px;overflow:hidden
+}
+.life-fill{height:100%;border-radius:2px}
+.life-fill.new{background:#7CE042}
+.life-fill.mid{background:#FFD55A}
+.life-fill.old{background:#FF6565}
+/* Empty barn message */
+.empty-barn{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  background:rgba(0,0,0,.35);color:#FFE9B0;font-weight:700
+}
+.empty-barn .ei{font-size:40px}
+.empty-barn .et{font-size:14px}
+
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 </style>
 </head>
@@ -1399,6 +1508,48 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
   </div>
 </div>
 
+<!-- Seed selection modal -->
+<div id="modal-seed" class="seed-modal hide">
+  <div class="seed-sheet">
+    <div class="seed-ttl">🌱 Выбери культуру для посадки</div>
+    <div class="seed-grid">
+      <div class="seed-item" onclick="plant('wheat')">
+        <div class="seed-ic"><svg viewBox="0 0 24 24"><use href="#wheat"/></svg></div>
+        <div class="seed-info">
+          <div class="s-nm">Пшеница</div>
+          <div class="s-time">⏱ 2 часа</div>
+          <div class="s-cost">🌾 даёт 30 шт</div>
+        </div>
+      </div>
+      <div class="seed-item" onclick="plant('corn')">
+        <div class="seed-ic"><svg viewBox="0 0 24 24"><use href="#corn"/></svg></div>
+        <div class="seed-info">
+          <div class="s-nm">Кукуруза</div>
+          <div class="s-time">⏱ 3 часа</div>
+          <div class="s-cost">🌽 даёт 25 шт</div>
+        </div>
+      </div>
+      <div class="seed-item" onclick="plant('carrot')">
+        <div class="seed-ic"><svg viewBox="0 0 24 24"><use href="#carrot"/></svg></div>
+        <div class="seed-info">
+          <div class="s-nm">Морковь</div>
+          <div class="s-time">⏱ 4 часа</div>
+          <div class="s-cost">🥕 даёт 20 шт</div>
+        </div>
+      </div>
+      <div class="seed-item" onclick="plant('pumpkin')">
+        <div class="seed-ic"><svg viewBox="0 0 24 24"><use href="#pumpkin"/></svg></div>
+        <div class="seed-info">
+          <div class="s-nm">Тыква</div>
+          <div class="s-time">⏱ 6 часов</div>
+          <div class="s-cost">🎃 даёт 15 шт</div>
+        </div>
+      </div>
+    </div>
+    <button class="seed-cancel" onclick="closeSeedModal()">Отмена</button>
+  </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script>
@@ -1406,11 +1557,21 @@ body{max-width:480px;margin:0 auto;position:relative;background:#87CEEB;box-shad
 const STATE = {
   coins:0, gems:0, ton:0, farmLevel:1,
   inv:{eggs:0,meat:0,wool:0,milk:0,wheat:0,corn:0,carrot:0,pumpkin:0},
+  // 6 field plots
+  fields:[
+    {id:0,crop:null,state:'empty',plantedAt:0,readyAt:0},
+    {id:1,crop:null,state:'empty',plantedAt:0,readyAt:0},
+    {id:2,crop:null,state:'empty',plantedAt:0,readyAt:0},
+    {id:3,crop:null,state:'empty',plantedAt:0,readyAt:0},
+    {id:4,crop:null,state:'empty',plantedAt:0,readyAt:0},
+    {id:5,crop:null,state:'empty',plantedAt:0,readyAt:0}
+  ],
   b:{
-    chicken:{lvl:1,cnt:0,max:[4,8,12,16],up:[1500,3000,6000,0],buy:100,col:0,prod:'eggs',ic:'egg',rate:.002,nick:'курятник',n2:'куриц'},
-    pig:    {lvl:1,cnt:0,max:[1,2,4,6],   up:[2500,5000,10000,0],buy:300,col:0,prod:'meat',ic:'meat',rate:.001,nick:'свинарник',n2:'свиней'},
-    sheep:  {lvl:1,cnt:0,max:[1,3,5,8],   up:[2800,5600,11200,0],buy:250,col:0,prod:'wool',ic:'wool',rate:.0008,nick:'овчарни',n2:'овец'},
-    cow:    {lvl:1,cnt:0,max:[1,2,3,4],   up:[3200,6400,12800,0],buy:500,col:0,prod:'milk',ic:'milk',rate:.0015,nick:'коровника',n2:'коров'}
+    // animals: array of {id, born, lastFed, alive}
+    chicken:{lvl:1,animals:[],max:[4,8,12,16],up:[1500,3000,6000,0],buy:100,col:0,prod:'eggs',ic:'egg',rate:.0015,food:'wheat',foodAmt:3,feedEvery:12*3600*1000},
+    pig:    {lvl:1,animals:[],max:[1,2,4,6],   up:[2500,5000,10000,0],buy:300,col:0,prod:'meat',ic:'meat',rate:.0008,food:'corn', foodAmt:4,feedEvery:12*3600*1000},
+    sheep:  {lvl:1,animals:[],max:[1,3,5,8],   up:[2800,5600,11200,0],buy:250,col:0,prod:'wool',ic:'wool',rate:.0006,food:'carrot',foodAmt:3,feedEvery:12*3600*1000},
+    cow:    {lvl:1,animals:[],max:[1,2,3,4],   up:[3200,6400,12800,0],buy:500,col:0,prod:'milk',ic:'milk',rate:.0012,food:'wheat',foodAmt:5,feedEvery:12*3600*1000}
   },
   orders:[
     {id:1,t:'Кафе у Маши',n:{eggs:5,wheat:20},r:300,rg:0},
@@ -1420,13 +1581,61 @@ const STATE = {
   ]
 };
 
-// Animals config for screens
-const ANIMALS = {
-  chicken: { ru:'КУРЯТНИК', icon:'chicken', emoji:'🐔', product:'eggs', prodIcon:'egg', prodName:'яиц', rate:'10 яиц / 12ч', nameSing:'курицу', plusInfo:'+4 места' },
-  pig:     { ru:'СВИНАРНИК', icon:'pig', emoji:'🐷', product:'meat', prodIcon:'meat', prodName:'мяса', rate:'6 мяса / 24ч', nameSing:'свинью', plusInfo:'+1 место' },
-  sheep:   { ru:'ОВЧАРНЯ', icon:'sheep', emoji:'🐑', product:'wool', prodIcon:'wool', prodName:'шерсти', rate:'4 шерсти / 18ч', nameSing:'овцу', plusInfo:'+2 места' },
-  cow:     { ru:'КОРОВНИК', icon:'cow', emoji:'🐄', product:'milk', prodIcon:'milk', prodName:'молока', rate:'5 молока / 12ч', nameSing:'корову', plusInfo:'+1 место' }
+// ====================== CROPS CONFIG ======================
+const CROPS = {
+  wheat:  {nm:'Пшеница', ic:'wheat',  color:'#F4A623',growMs:2*3600*1000, yield:30, cost:5},
+  corn:   {nm:'Кукуруза',ic:'corn',   color:'#FFD55A',growMs:3*3600*1000, yield:25, cost:8},
+  carrot: {nm:'Морковь', ic:'carrot', color:'#F4A623',growMs:4*3600*1000, yield:20, cost:10},
+  pumpkin:{nm:'Тыква',   ic:'pumpkin',color:'#FF9800',growMs:6*3600*1000, yield:15, cost:12}
 };
+
+// ====================== ANIMALS CONFIG ======================
+const ANIMALS = {
+  chicken:{ru:'КУРЯТНИК', icon:'chicken', product:'eggs', prodIcon:'egg', prodName:'яиц',
+    rateText:'10 яиц / 12ч', nameSing:'курицу', plusInfo:'+4 места',
+    foodName:'пшеница', lifespan:30*24*3600*1000},
+  pig:    {ru:'СВИНАРНИК',icon:'pig',     product:'meat', prodIcon:'meat',prodName:'мяса',
+    rateText:'6 мяса / 24ч',  nameSing:'свинью', plusInfo:'+1 место',
+    foodName:'кукуруза',  lifespan:30*24*3600*1000},
+  sheep:  {ru:'ОВЧАРНЯ',  icon:'sheep',   product:'wool', prodIcon:'wool',prodName:'шерсти',
+    rateText:'4 шерсти / 18ч',nameSing:'овцу',   plusInfo:'+2 места',
+    foodName:'морковь',   lifespan:30*24*3600*1000},
+  cow:    {ru:'КОРОВНИК', icon:'cow',     product:'milk', prodIcon:'milk',prodName:'молока',
+    rateText:'5 молока / 12ч',nameSing:'корову', plusInfo:'+1 место',
+    foodName:'пшеница',   lifespan:30*24*3600*1000}
+};
+
+// ====================== ANIMAL HELPERS ======================
+function getAliveAnimals(k){ return (STATE.b[k].animals||[]).filter(a=>a.alive); }
+function getAliveCount(k){ return getAliveAnimals(k).length; }
+function isHungry(k){
+  const b=STATE.b[k]; const now=Date.now();
+  return getAliveAnimals(k).some(a=>now-a.lastFed>b.feedEvery);
+}
+function ageLabel(born){
+  const d = Math.floor((Date.now()-born)/(24*3600*1000));
+  return `${d} дн.`;
+}
+function lifePercent(k, born){
+  const lifespan = ANIMALS[k].lifespan;
+  return Math.min(100, (Date.now()-born)/lifespan*100);
+}
+function feedCost(k){
+  const b=STATE.b[k]; const cnt=getAliveCount(k);
+  return {food:b.food, amt:b.foodAmt*cnt};
+}
+function checkAnimalDeaths(){
+  Object.entries(STATE.b).forEach(([k,b])=>{
+    const now=Date.now();
+    const lifespan=ANIMALS[k].lifespan;
+    b.animals.forEach(a=>{
+      if(a.alive && now-a.born >= lifespan){
+        a.alive=false;
+        toast(`💀 Одно из животных (${ANIMALS[k].ru.toLowerCase()}) умерло от старости`);
+      }
+    });
+  });
+}
 
 // ====================== HELPERS ======================
 const $ = (s,e=document) => e.querySelector(s);
@@ -1759,52 +1968,106 @@ function panelsHTML(animal){
   const cfg = ANIMALS[animal];
   const b = STATE.b[animal];
   const max = b.max[b.lvl-1];
+  const cnt = getAliveCount(animal);
   const upCost = b.lvl>=4 ? 'МАКС' : fmt(b.up[b.lvl-1]);
+  const hungry = isHungry(animal);
+  const fc = feedCost(animal);
+  const hasFood = (STATE.inv[fc.food]||0) >= fc.amt;
+  const foodNames = {wheat:'пшеница',corn:'кукуруза',carrot:'морковь'};
+  // Feed satiety: avg across alive animals
+  const alive = getAliveAnimals(animal);
+  let feedPct = 100;
+  if(alive.length>0){
+    const now=Date.now();
+    feedPct = alive.reduce((s,a)=> s + Math.max(0, 1-(now-a.lastFed)/b.feedEvery),0)/alive.length*100;
+  }
+  const feedClass = feedPct>60?'ok':feedPct>30?'warn':'bad';
   return `<div class="panels">
     <div class="panel">
-      <div class="p-ttl">Уровень ${cfg.ru.toLowerCase()}а</div>
+      <div class="p-ttl">Уровень здания</div>
       <div class="lstar"><svg viewBox="0 0 32 32"><use href="#star"/></svg><span class="num">${b.lvl}</span></div>
-      <div class="p-sub">Мест для ${cfg.product==='eggs'?'куриц':cfg.product==='meat'?'свиней':cfg.product==='wool'?'овец':'коров'}</div>
-      <div class="p-big">${max}</div>
-      <div class="p-sub">След. уровень<br><b>${cfg.plusInfo}</b></div>
+      <div class="p-sub">Мест: <b>${cnt}/${max}</b></div>
+      <div class="p-sub">До ${max} <b>${cfg.plusInfo}</b></div>
       <button class="btn green" onclick="upgradeBuilding('${animal}')">
-        <svg class="mc"><use href="#mcoin"/></svg> ${upCost} ${b.lvl>=4?'':'Улучшить'}
+        <svg class="mc"><use href="#mcoin"/></svg> ${upCost}${b.lvl<4?' Улучшить':''}
       </button>
     </div>
     <div class="panel">
-      <div class="p-ttl">${cfg.product==='eggs'?'Курицы':cfg.product==='meat'?'Свиньи':cfg.product==='wool'?'Овцы':'Коровы'}</div>
-      <div class="p-ic"><svg viewBox="0 0 100 100"><use href="#${cfg.icon}"/></svg></div>
-      <div class="p-sub">Куплено</div>
-      <div class="p-big">${b.cnt}/${max}</div>
-      <div class="p-sub">Производство:<br><b>${cfg.rate}</b></div>
-      <button class="btn blue" onclick="buyAnimal('${animal}')">
-        Купить ${cfg.nameSing} <svg class="mc"><use href="#mcoin"/></svg> ${b.buy}
-      </button>
-    </div>
-    <div class="panel">
-      <div class="p-ttl">Собрано</div>
+      <div class="p-ttl">${cnt===0?'Нет животных':cfg.prodName.charAt(0).toUpperCase()+cfg.prodName.slice(1)}</div>
       <div class="p-ic"><svg viewBox="0 0 24 24"><use href="#${cfg.prodIcon}"/></svg></div>
       <div class="p-big" id="${animal}-collected">${Math.floor(b.col)}</div>
-      <div class="p-sub">${cfg.prodName}</div>
-      <button class="btn green" style="margin-top:6px" onclick="collectAnimal('${animal}')">Собрать всё</button>
+      <div class="p-sub">${cfg.prodName} на складе</div>
+      ${cnt>0?`<div class="p-sub" style="margin-top:3px">Произв: <b>${cfg.rateText}</b></div>`:''}
+      <button class="btn green" style="margin-top:auto" onclick="collectAnimal('${animal}')">Собрать всё</button>
     </div>
+    <div class="panel">
+      <div class="p-ttl">${hungry?'😰 Голодные!':'🍽 Кормление'}</div>
+      <div style="font-size:11px;font-weight:700;color:#5D3A1F;margin:2px 0">Еда: ${foodNames[b.food]||b.food}</div>
+      <div class="feed-bar"><div class="feed-fill ${feedClass}" style="width:${feedPct.toFixed(0)}%"></div></div>
+      <div class="p-sub">${feedPct.toFixed(0)}% сытости</div>
+      ${cnt>0?`<div class="p-sub">Нужно: <b>${fc.amt} ${foodNames[b.food]}</b></div>`:''}
+      ${cnt>0?`<div class="p-sub">Склад: <b>${STATE.inv[b.food]||0}</b></div>`:''}
+      <button class="btn ${hasFood&&cnt>0?'orange':'orange'}" style="margin-top:auto"
+        ${cnt===0?'disabled':''} onclick="feedAnimals('${animal}')">
+        ${cnt===0?'Нет животных':'🍞 Покормить'}
+      </button>
+    </div>
+  </div>
+  <div style="padding:6px 10px 4px;background:linear-gradient(180deg,#5A9928,#3D7A1A)">
+    <button class="btn blue" onclick="buyAnimal('${animal}')" style="margin-top:0">
+      Купить ${cfg.nameSing} <svg class="mc"><use href="#mcoin"/></svg> ${b.buy}
+    </button>
   </div>`;
 }
 
 // ====================== SCREEN RENDERERS ======================
+function animalSlotsOverlay(animal){
+  const b = STATE.b[animal];
+  const max = b.max[b.lvl-1];
+  const alive = getAliveAnimals(animal);
+  const cnt = alive.length;
+  if(cnt===0){
+    return `<div class="empty-barn">
+      <div class="ei">🏚</div>
+      <div class="et">Нет животных</div>
+      <div style="font-size:12px;opacity:.8;margin-top:4px">Купи ${ANIMALS[animal].nameSing} ниже</div>
+    </div>`;
+  }
+  const now = Date.now();
+  const slots = [];
+  for(let i=0;i<Math.min(cnt,max);i++){
+    const a = alive[i];
+    const lifePct = lifePercent(animal, a.born);
+    const lc = lifePct<50?'new':lifePct<80?'mid':'old';
+    const isHung = now-a.lastFed > b.feedEvery;
+    slots.push(`<div class="aslot occupied">
+      <svg viewBox="0 0 100 100"><use href="#${ANIMALS[animal].icon}"/></svg>
+      <div class="life-bar"><div class="life-fill ${lc}" style="width:${(100-lifePct).toFixed(0)}%"></div></div>
+      ${isHung?'<div style="position:absolute;top:-4px;right:-4px;font-size:14px">😰</div>':''}
+    </div>`);
+  }
+  // Empty slots
+  for(let i=cnt;i<Math.min(max,4);i++){
+    slots.push(`<div class="aslot"></div>`);
+  }
+  return `<div class="animal-slots-dynamic">${slots.join('')}</div>`;
+}
+
 function renderAnimalScreen(animal){
   const cfg = ANIMALS[animal];
   const b = STATE.b[animal];
   const max = b.max[b.lvl-1];
+  const cnt = getAliveCount(animal);
   const scenes = { chicken: chickenSceneSVG, pig: pigSceneSVG, sheep: sheepSceneSVG, cow: cowSceneSVG };
   return `
     ${topbarHTML()}
     ${headerHTML(cfg.ru, `Уровень ${b.lvl}`, 'screen-animals')}
-    <div class="scene-int">
+    <div class="scene-int" style="position:relative">
       ${scenes[animal]()}
+      ${animalSlotsOverlay(animal)}
       <div class="cap-board">
-        <div class="row"><svg viewBox="0 0 100 100"><use href="#${cfg.icon}"/></svg> <span>${b.cnt}/${max}</span></div>
-        <div class="lbl">мест занято</div>
+        <div class="row"><svg viewBox="0 0 100 100"><use href="#${cfg.icon}"/></svg> <span>${cnt}/${max}</span></div>
+        <div class="lbl">живых</div>
       </div>
     </div>
     ${panelsHTML(animal)}
@@ -1817,9 +2080,12 @@ function renderAnimalsOverview(){
     const cfg = ANIMALS[k];
     const b = STATE.b[k];
     const max = b.max[b.lvl-1];
+    const cnt = getAliveCount(k);
     const ready = Math.floor(b.col) > 0;
+    const hungry = cnt>0 && isHungry(k);
     return `<div class="aov-card" onclick="showScreen('screen-${k}')">
       ${ready?'<div class="badge">!</div>':''}
+      ${hungry?'<div class="hungry-badge">😰</div>':''}
       <div class="aov-pic">
         <svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMax meet">
           <rect width="100" height="42" fill="#87CEEB"/>
@@ -1830,11 +2096,11 @@ function renderAnimalsOverview(){
             <rect x="0" y="20" width="70" height="30" fill="url(#g-wood)" stroke="#5D3A1F" stroke-width="1"/>
             <polygon points="-3,22 35,2 73,22" fill="${k==='chicken'?'#4FB7FF':k==='pig'?'#E25749':k==='sheep'?'#9B59B6':'#3D8E1A'}" stroke="#5D3A1F" stroke-width="1"/>
           </g>
-          <g transform="translate(35 28) scale(.4)"><use href="#${cfg.icon}"/></g>
+          ${cnt>0?`<g transform="translate(35 28) scale(.4)"><use href="#${cfg.icon}"/></g>`:''}
         </svg>
       </div>
       <div class="aov-nm">${cfg.ru.charAt(0)+cfg.ru.slice(1).toLowerCase()}</div>
-      <div class="aov-meta">Ур. ${b.lvl} • ${b.cnt}/${max}</div>
+      <div class="aov-meta">Ур. ${b.lvl} • ${cnt}/${max} ${hungry?'😰':''}</div>
       <button class="btn green" style="margin-top:5px" onclick="event.stopPropagation();collectAnimal('${k}')">
         Собрать <svg class="mc" viewBox="0 0 24 24"><use href="#${cfg.prodIcon}"/></svg>
       </button>
@@ -1863,43 +2129,69 @@ function renderAnimalsOverview(){
 }
 
 function renderFields(){
+  const now = Date.now();
+  function plotHTML(p){
+    if(p.state==='empty'){
+      return `<div class="plot empty" onclick="openSeedModal(${p.id})">
+        <div class="plot-soil"></div>
+        <div class="plot-nm" style="color:#FFE9B0">Пусто</div>
+        <button class="plot-btn plant">🌱 Посадить</button>
+      </div>`;
+    }
+    const crop = CROPS[p.crop];
+    const elapsed = now - p.plantedAt;
+    const total = p.readyAt - p.plantedAt;
+    const pct = Math.min(100, elapsed/total*100);
+    const remaining = Math.max(0, p.readyAt - now);
+    const remText = remaining > 0 ? fmtTime(remaining) : 'Готово!';
+    if(p.state==='ready'){
+      return `<div class="plot ready" onclick="harvestPlot(${p.id})">
+        <div class="plot-ic"><svg viewBox="0 0 24 24"><use href="#${crop.ic}"/></svg></div>
+        <div class="plot-nm">${crop.nm}</div>
+        <div class="plot-timer">✅ Готово к сбору!</div>
+        <button class="plot-btn harvest">🌾 +${crop.yield} Собрать</button>
+      </div>`;
+    }
+    return `<div class="plot growing">
+      <div class="plot-ic"><svg viewBox="0 0 24 24"><use href="#${crop.ic}"/></svg></div>
+      <div class="plot-nm">${crop.nm}</div>
+      <div class="grow-bar"><div class="grow-fill" style="width:${pct.toFixed(1)}%"></div></div>
+      <div class="plot-timer">⏱ ${remText}</div>
+    </div>`;
+  }
+  const readyCount = STATE.fields.filter(p=>p.state==='ready').length;
   return `
     ${topbarHTML()}
-    ${headerHTML('ПОЛЯ','Уровень 5')}
-    <div class="field-bar">🌾 Сбор урожая 2 раза в день • До сбора: <b id="field-timer">07:45:20</b></div>
+    ${headerHTML('ПОЛЯ','Фермерский участок')}
+    <div class="field-bar">
+      🌾 Участков засеяно: ${STATE.fields.filter(p=>p.state!=='empty').length}/6
+      ${readyCount>0?` • <b style="color:#FFD55A">🟡 Готово: ${readyCount}</b>`:''}
+    </div>
     <div class="scroll" style="background:linear-gradient(180deg,#7BB833,#5A9928)">
-      <div class="fields-grid">
-        <div class="field" onclick="harvest('wheat')">
-          <div class="ic"><svg viewBox="0 0 24 24"><use href="#wheat"/></svg></div>
-          <div class="nm">Пшеница</div>
-          <div class="amt"><span data-inv="wheat">${STATE.inv.wheat}</span></div>
-          <div class="pill">Готово!</div>
-        </div>
-        <div class="field" onclick="harvest('corn')">
-          <div class="ic"><svg viewBox="0 0 24 24"><use href="#corn"/></svg></div>
-          <div class="nm">Кукуруза</div>
-          <div class="amt"><span data-inv="corn">${STATE.inv.corn}</span></div>
-          <div class="pill">Готово!</div>
-        </div>
-        <div class="field" onclick="harvest('carrot')">
-          <div class="ic"><svg viewBox="0 0 24 24"><use href="#carrot"/></svg></div>
-          <div class="nm">Морковь</div>
-          <div class="amt"><span data-inv="carrot">${STATE.inv.carrot}</span></div>
-          <div class="pill">Готово!</div>
-        </div>
-        <div class="field" onclick="harvest('pumpkin')">
-          <div class="ic"><svg viewBox="0 0 24 24"><use href="#pumpkin"/></svg></div>
-          <div class="nm">Тыква</div>
-          <div class="amt"><span data-inv="pumpkin">${STATE.inv.pumpkin}</span></div>
-          <div class="pill">Готово!</div>
-        </div>
+      <div class="plots-grid">
+        ${STATE.fields.map(plotHTML).join('')}
       </div>
-      <button class="collect-all" onclick="harvestAll()">
-        <svg width="22" height="22" viewBox="0 0 24 24"><use href="#wheat"/></svg>
-        Собрать всё
-      </button>
+      <div class="section-bar" style="margin:4px 8px;border-radius:10px">📦 Склад (ресурсы для животных)</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px">
+        ${Object.entries({wheat:'wheat',corn:'corn',carrot:'carrot',pumpkin:'pumpkin'}).map(([k,ic])=>`
+          <div style="background:linear-gradient(180deg,#FFF4D6,#F0E0A8);border-radius:12px;padding:8px;text-align:center;box-shadow:0 3px 6px rgba(0,0,0,.15);border:2px solid #fff">
+            <svg width="32" height="32" viewBox="0 0 24 24"><use href="#${ic}"/></svg>
+            <div style="font-weight:700;font-size:15px;color:#2D5410;line-height:1">${STATE.inv[k]}</div>
+            <div style="font-size:9px;color:#8B5E3C;font-weight:600">${CROPS[k].nm}</div>
+          </div>
+        `).join('')}
+      </div>
     </div>
   `;
+}
+
+function fmtTime(ms){
+  const s=Math.floor(ms/1000);
+  if(s<60) return `${s}с`;
+  const m=Math.floor(s/60);
+  if(m<60) return `${m}м ${s%60}с`;
+  const h=Math.floor(m/60);
+  return `${h}ч ${m%60}м`;
 }
 
 const MARKET = [
@@ -2224,18 +2516,19 @@ function collectAnimal(animal){
   b.col = 0;
   STATE.inv[b.prod] += amt;
   const cfg = ANIMALS[animal];
-  toast(`+${amt} ${cfg.prodName} собрано!`);
+  toast(`+${amt} ${cfg.prodName} → склад!`);
   refresh();
 }
 
 function buyAnimal(animal){
   const b = STATE.b[animal];
   const max = b.max[b.lvl-1];
-  if (b.cnt >= max) { toast('Нет места! Улучшите постройку.'); return; }
+  const cnt = getAliveCount(animal);
+  if (cnt >= max) { toast('Нет места! Улучшите постройку.'); return; }
   if (STATE.coins < b.buy) { toast('Недостаточно монет!'); return; }
   STATE.coins -= b.buy;
-  b.cnt++;
-  toast(`✨ ${ANIMALS[animal].nameSing.charAt(0).toUpperCase()+ANIMALS[animal].nameSing.slice(1)} куплена!`);
+  b.animals.push({id:Date.now(), born:Date.now(), lastFed:Date.now(), alive:true});
+  toast(`✨ Куплено! Теперь ${getAliveCount(animal)} животных`);
   refresh();
 }
 
@@ -2250,22 +2543,54 @@ function upgradeBuilding(animal){
   refresh();
 }
 
-function harvest(crop){
-  const yields = { wheat:40, corn:30, carrot:35, pumpkin:25 };
-  const amt = yields[crop];
-  STATE.inv[crop] += amt;
-  STATE.coins += amt * 2;
-  toast(`🌾 +${amt} ${crop}!`);
+function feedAnimals(animal){
+  const b = STATE.b[animal];
+  const cnt = getAliveCount(animal);
+  if(cnt===0){ toast('Нет животных для кормления'); return; }
+  const fc = feedCost(animal);
+  if((STATE.inv[fc.food]||0) < fc.amt){
+    const foodNames={wheat:'пшеницы',corn:'кукурузы',carrot:'моркови'};
+    toast(`Нужно ${fc.amt} ${foodNames[fc.food]||fc.food}! На складе: ${STATE.inv[fc.food]||0}`);
+    return;
+  }
+  STATE.inv[fc.food] -= fc.amt;
+  const now=Date.now();
+  getAliveAnimals(animal).forEach(a=>{ a.lastFed=now; });
+  toast(`🍞 ${ANIMALS[animal].ru.toLowerCase().replace('курятник','курочки').replace('свинарник','свинки').replace('овчарня','овечки').replace('коровник','коровки')} накормлены!`);
   refresh();
 }
 
-function harvestAll(){
-  ['wheat','corn','carrot','pumpkin'].forEach(c => {
-    const yields = { wheat:40, corn:30, carrot:35, pumpkin:25 };
-    STATE.inv[c] += yields[c];
-    STATE.coins += yields[c] * 2;
-  });
-  toast('🌾 Весь урожай собран!');
+// ====== FIELDS ======
+let _pendingPlotId = null;
+function openSeedModal(plotId){
+  _pendingPlotId = plotId;
+  document.getElementById('modal-seed').classList.remove('hide');
+}
+function closeSeedModal(){
+  document.getElementById('modal-seed').classList.add('hide');
+  _pendingPlotId = null;
+}
+function plant(cropKey){
+  if(_pendingPlotId===null) return;
+  const plot = STATE.fields[_pendingPlotId];
+  if(!plot || plot.state!=='empty'){ closeSeedModal(); return; }
+  const crop = CROPS[cropKey];
+  plot.crop = cropKey;
+  plot.state = 'growing';
+  plot.plantedAt = Date.now();
+  plot.readyAt = Date.now() + crop.growMs;
+  closeSeedModal();
+  toast(`🌱 ${crop.nm} посажена! Готово через ${fmtTime(crop.growMs)}`);
+  refresh();
+}
+function harvestPlot(plotId){
+  const plot = STATE.fields[plotId];
+  if(!plot || plot.state!=='ready') return;
+  const crop = CROPS[plot.crop];
+  STATE.inv[plot.crop] = (STATE.inv[plot.crop]||0) + crop.yield;
+  toast(`🌾 +${crop.yield} ${crop.nm} → склад!`);
+  // Reset plot
+  plot.crop = null; plot.state = 'empty'; plot.plantedAt = 0; plot.readyAt = 0;
   refresh();
 }
 
@@ -2368,7 +2693,7 @@ function openChest(){
 function claimChest(){
   STATE.coins += 100;
   STATE.gems += 50;
-  STATE.b.chicken.cnt += 1;
+  STATE.b.chicken.animals.push({id:Date.now(), born:Date.now(), lastFed:Date.now(), alive:true});
   document.getElementById('modal-chest').classList.add('hide');
   toast('🎉 Подарок получен! +100🪙 +50💎 +1🐔');
   refresh();
@@ -2386,26 +2711,39 @@ function toast(msg){
 
 // ====================== PRODUCTION SIMULATION ======================
 setInterval(() => {
+  const now = Date.now();
+  // Animal production — only if fed
   Object.entries(STATE.b).forEach(([k, b]) => {
-    b.col += b.cnt * b.rate;
+    const alive = getAliveAnimals(k);
+    if(alive.length > 0){
+      const fedCount = alive.filter(a => now-a.lastFed <= b.feedEvery).length;
+      if(fedCount > 0){
+        b.col += fedCount * b.rate;
+      }
+    }
   });
+  // Update collected number in current animal screen
   Object.keys(STATE.b).forEach(k => {
     const el = document.getElementById(`${k}-collected`);
     if (el) el.textContent = Math.floor(STATE.b[k].col);
   });
+  // Check field readiness
+  STATE.fields.forEach(p => {
+    if(p.state==='growing' && now >= p.readyAt){
+      p.state = 'ready';
+    }
+  });
+  // Check animal deaths every minute
+  if(now % 60000 < 1100) checkAnimalDeaths();
 }, 1000);
 
-// Field timer
-let fieldSec = 7*3600 + 45*60 + 20;
+// Field timer tick — re-render fields screen if active
 setInterval(() => {
-  fieldSec--;
-  if (fieldSec < 0) fieldSec = 43200;
-  const h = Math.floor(fieldSec/3600);
-  const m = Math.floor((fieldSec%3600)/60);
-  const s = fieldSec%60;
-  const el = document.getElementById('field-timer');
-  if (el) el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}, 1000);
+  const active = document.querySelector('.screen.active');
+  if(active && active.id === 'screen-fields'){
+    active.innerHTML = RENDERERS['screen-fields']();
+  }
+}, 5000);
 
 // Prevent all vertical/horizontal touch scroll on main screen
 document.getElementById('screen-main').addEventListener('touchmove', e => {
