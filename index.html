@@ -13,6 +13,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap');
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;max-width:100%}
+
+/* ===== SAFE AREA VARIABLES ===== */
+:root{
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  /* Overridden by JS with Telegram values */
+  --tg-top: 0px;
+  --tg-bottom: 0px;
+  /* Combined */
+  --pad-top: max(var(--safe-top), var(--tg-top));
+  --pad-bottom: max(var(--safe-bottom), var(--tg-bottom));
+}
+
 html{
   height:100%;
   height:100dvh;
@@ -37,14 +52,16 @@ body{
 /* SCREENS */
 .screen{display:none;position:absolute;inset:0;flex-direction:column;background:#7BB833;overflow:hidden}
 .screen.active{display:flex;animation:fade .25s ease-out}
-/* Main screen fills exactly the viewport with no gaps */
 #screen-main{overflow:hidden !important;touch-action:none;background:#87CEEB}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 
-/* ============ TOP BAR ============ */
+/* ============ TOP BAR — accounts for status bar + Telegram header ============ */
 .topbar{
   background:linear-gradient(180deg,#1E6FB0 0%,#2C9CDB 80%,#2589C2 100%);
-  padding:8px 8px 10px;display:flex;align-items:center;gap:5px;flex-shrink:0;
+  padding-top:calc(10px + var(--pad-top));
+  padding-bottom:10px;
+  padding-left:8px;padding-right:8px;
+  display:flex;align-items:center;gap:5px;flex-shrink:0;
   box-shadow:0 4px 8px rgba(0,0,0,.35),inset 0 -2px 0 rgba(0,0,0,.2);
   position:relative;z-index:50
 }
@@ -116,8 +133,8 @@ body{
 }
 .fab svg{width:32px;height:32px}
 .fab .lbl{font-size:10px;font-weight:700;color:#5D3A1F}
-.fab.tl{top:10px;left:10px}
-.fab.tr{top:10px;right:10px}
+.fab.tl{top:calc(10px + var(--pad-top));left:10px}
+.fab.tr{top:calc(10px + var(--pad-top));right:10px}
 .fab .badge{
   position:absolute;top:-7px;right:-7px;
   background:radial-gradient(circle at 30% 30%,#FF6565,#C62828);
@@ -177,7 +194,9 @@ body{
 /* ============ BOTTOM NAV ============ */
 .bnav{
   background:linear-gradient(180deg,#4A7A1F,#2D5410);
-  padding:5px 0 6px;display:flex;flex-shrink:0;
+  padding:5px 0;
+  padding-bottom:calc(6px + var(--pad-bottom));
+  display:flex;flex-shrink:0;
   box-shadow:0 -4px 12px rgba(0,0,0,.4),inset 0 2px 0 rgba(0,0,0,.3);
   position:relative;z-index:50
 }
@@ -205,7 +224,10 @@ body{
   background:
     linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.4)),
     repeating-linear-gradient(90deg,#9A6B45 0,#9A6B45 14px,#8B5E3C 14px,#8B5E3C 28px);
-  padding:8px 10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+  padding-top:calc(10px + var(--pad-top));
+  padding-bottom:16px;
+  padding-left:10px;padding-right:10px;
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
   box-shadow:0 5px 10px rgba(0,0,0,.4);position:relative;z-index:10
 }
 .sh-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(180deg,#B5825A,transparent)}
@@ -326,7 +348,9 @@ body{
 /* ============ BUILDING TABS ============ */
 .btabs{
   background:linear-gradient(180deg,#4A7A1F,#2D5410);
-  padding:5px 4px 6px;display:flex;gap:4px;flex-shrink:0;
+  padding:5px 4px;
+  padding-bottom:calc(6px + var(--pad-bottom));
+  display:flex;gap:4px;flex-shrink:0;
   box-shadow:0 -4px 10px rgba(0,0,0,.4);position:relative;z-index:10
 }
 .btab{
@@ -606,7 +630,10 @@ body{
 .seed-modal.hide{display:none}
 .seed-sheet{
   background:linear-gradient(180deg,#FFF4D6,#F0E0A8);
-  border-radius:24px 24px 0 0;padding:20px;width:100%;max-width:480px;
+  border-radius:24px 24px 0 0;
+  padding:20px;
+  padding-bottom:calc(20px + var(--pad-bottom));
+  width:100%;max-width:480px;
   border:3px solid #FFD55A;border-bottom:none;
   box-shadow:0 -8px 30px rgba(0,0,0,.4)
 }
@@ -3060,32 +3087,66 @@ document.getElementById('screen-main').addEventListener('touchmove', e => {
   e.preventDefault();
 }, { passive: false });
 
-// ====================== TELEGRAM INTEGRATION ======================
+// ====================== TELEGRAM & SAFE AREA ======================
 (function(){
-  const tg = window.Telegram?.WebApp;
+  var tg = window.Telegram && window.Telegram.WebApp;
+
+  function applySafeArea(){
+    var top = 0, bottom = 0;
+    if(tg){
+      // contentSafeAreaInset includes space below Telegram's own header
+      if(tg.contentSafeAreaInset){
+        top    = Math.max(top,    tg.contentSafeAreaInset.top    || 0);
+        bottom = Math.max(bottom, tg.contentSafeAreaInset.bottom || 0);
+      }
+      // safeAreaInset includes iOS status bar + home indicator
+      if(tg.safeAreaInset){
+        top    = Math.max(top,    tg.safeAreaInset.top    || 0);
+        bottom = Math.max(bottom, tg.safeAreaInset.bottom || 0);
+      }
+    }
+    // Fallback: probe CSS env() via getBoundingClientRect
+    if(top < 1){
+      var probe = document.createElement('div');
+      probe.style.cssText = 'position:fixed;top:env(safe-area-inset-top,0px);height:0;left:0;right:0;opacity:0;pointer-events:none;z-index:-1';
+      document.body.appendChild(probe);
+      var rect = probe.getBoundingClientRect();
+      document.body.removeChild(probe);
+      if(rect.top > 5) top = rect.top;
+    }
+
+    document.documentElement.style.setProperty('--tg-top',    top    + 'px');
+    document.documentElement.style.setProperty('--tg-bottom', bottom + 'px');
+  }
+
+  function fixHeight(){
+    var vh = (tg && tg.viewportStableHeight && tg.viewportStableHeight > 100)
+      ? tg.viewportStableHeight
+      : window.innerHeight;
+    document.body.style.height = vh + 'px';
+    document.querySelectorAll('.screen').forEach(function(s){ s.style.height = vh + 'px'; });
+    var ms = document.getElementById('screen-main');
+    if(ms) ms.style.height = vh + 'px';
+  }
+
   if(tg){
-    try {
+    try{
       tg.ready();
       tg.expand();
       if(tg.requestFullscreen) tg.requestFullscreen();
       tg.setHeaderColor('#1E6FB0');
-      tg.setBackgroundColor('#7BB833');
-      tg.enableClosingConfirmation?.();
-      tg.disableVerticalSwipes?.();
-    } catch(e){ console.warn('TG init:', e); }
+      tg.setBackgroundColor('#1E6FB0');
+      if(tg.disableVerticalSwipes) tg.disableVerticalSwipes();
+      tg.onEvent('viewportChanged',        function(){ applySafeArea(); fixHeight(); });
+      tg.onEvent('safeAreaChanged',        applySafeArea);
+      tg.onEvent('contentSafeAreaChanged', applySafeArea);
+    }catch(e){ console.warn('TG init:', e); }
   }
-  // Force full height on iOS Safari
-  function fixHeight(){
-    const vh = window.innerHeight;
-    document.body.style.height = vh + 'px';
-    document.querySelectorAll('.screen').forEach(s=>{ s.style.height = vh+'px'; });
-    // Ensure main screen has no leftover space
-    const ms = document.getElementById('screen-main');
-    if(ms) ms.style.height = vh+'px';
-  }
+
+  applySafeArea();
   fixHeight();
-  window.addEventListener('resize', fixHeight);
-  window.addEventListener('orientationchange', ()=>setTimeout(fixHeight,200));
+  window.addEventListener('resize', function(){ applySafeArea(); fixHeight(); });
+  window.addEventListener('orientationchange', function(){ setTimeout(function(){ applySafeArea(); fixHeight(); }, 300); });
 })();
 
 function toggleDarkMode(){
